@@ -1,6 +1,6 @@
 {
   "name": "indian-stock-exchange",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A Library which fetched data from Bombay Stock Exchange and return in JSON format.",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
+    "html": "^1.0.0",
     "lodash": "^4.17.10"
   },
   "devDependencies": {},

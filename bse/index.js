@@ -17,6 +17,9 @@ function getIndices() {
   return API.getIndices();
 }
 
+function getIndicesInfo(symbol) {
+  return API.getIndicesInfo(symbol);
+}
 
 /**
  * API returning top Gainers of day
@@ -66,6 +69,7 @@ function getDayStocks(securityCode, flag) {
   return API.getDayStocks(securityCode, flag);
 }
 
+
 var bse = {
   getTopTurnOvers: getTopTurnOvers,
   getIndices: getIndices,
@@ -74,6 +78,7 @@ var bse = {
   getDailyStocks: getDailyStocks,
   getCompanyInfo: getCompanyInfo,
   getDayStocks: getDayStocks,
+  getIndicesInfo: getIndicesInfo
 };
 
 module.exports = bse;

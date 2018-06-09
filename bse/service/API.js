@@ -13,6 +13,7 @@ var GAINERS_HEADERS = require('../constant').GAINERS_HEADERS;
 var INDICES_HEADERS = require('../constant').INDICES_HEADERS;
 var DAILY_STOCKS_URL = require('../constant').DAILY_STOCKS_URL;
 var TURNOVER_HEADERS = require('../constant').TURNOVER_HEADERS;
+var INDICES_INFO_URL = require('../constant').INDICES_INFO_URL;
 var HISTORY_STOCKS_URL = require('../constant').HISTORY_STOCKS_URL;
 var DAILY_STOCKS_HEADERS = require('../constant').DAILY_STOCKS_HEADERS;
 var DAILY_STOCKS_CLOSING_HEADERS = require('../constant').DAILY_STOCKS_CLOSING_HEADERS;
@@ -74,6 +75,10 @@ function getIndices() {
   return axiosTransformer(INDICES_URL, INDICES_HEADERS);
 }
 
+function getIndicesInfo(symbol) {
+  return axiosTransformerAdvance(INDICES_INFO_URL);
+}
+
 function getGainers() {
   return axiosTransformer(GAINERS_URL, GAINERS_HEADERS);
 }
@@ -104,6 +109,7 @@ var API = {
   getDailyStocks: getDailyStocks,
   getCompanyInfo: getCompanyInfo,
   getDayStocks: getDayStocks,
+  getIndicesInfo: getIndicesInfo
 };
 
 module.exports = API;
