@@ -11,4 +11,17 @@
  - getLosers
  - getDailyStocks(securityCode)
  - getCompanyInfo(securityCode)
- - getDayStocks(securityCode, flag=[5D, 1M, 3M, 6M, 12M])
+ - getDayStocks(securityCode, flag=[5D, 1M, 3M, 6M, 12M]) ## BSE
+ 
+ ## NSE
+ 
+ ### Available Methods
+   
+ - getMarketStatus
+ - getIndices
+ - getGainers
+ - getLosers
+ - getSectorsList
+ - getQuoteInfo(symbol)
+ - getQuotes(symbol)
+ - getInclineDecline
