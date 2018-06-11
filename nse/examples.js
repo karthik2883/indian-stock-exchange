@@ -8,7 +8,10 @@ var API = require('./service/API');
  * @returns {boolean}
  */
 function getMarketStatus() {
-  return API.getMarketStatus();
+  return API.getMarketStatus()
+    .then(function (value) {
+      console.log(value.data)
+    });
 }
 
 /**
@@ -16,7 +19,10 @@ function getMarketStatus() {
  * @returns {*}
  */
 function getIndices() {
-  return API.getIndices();
+  return API.getIndices()
+  .then(function (value) {
+    console.log(value.data)
+  });
 }
 
 /**
@@ -31,7 +37,10 @@ function getIndices() {
  * @returns {array}
  */
 function getSectorsList() {
-  return API.getSectorsList();
+  return API.getSectorsList()
+  .then(function (value) {
+    console.log(value.data)
+  });
 }
 
 /**
@@ -41,12 +50,18 @@ function getSectorsList() {
  * @returns {object}
  */
 function getQuoteInfo(symbol) {
-  return API.getQuoteInfo(symbol);
+  return API.getQuoteInfo(symbol)
+  .then(function (value) {
+    console.log(value.data)
+  });
 }
 
 
 function getQuotes(symbol) {
-  return API.getQuotes();
+  return API.getQuotes()
+  .then(function (value) {
+    console.log(value.data)
+  });
 }
 
 /**
@@ -54,7 +69,10 @@ function getQuotes(symbol) {
  * @returns {*}
  */
 function getGainers() {
-  return API.getGainers();
+  return API.getGainers()
+  .then(function (value) {
+    console.log(value.data)
+  });
 }
 
 /**
@@ -62,7 +80,10 @@ function getGainers() {
  * @returns {*}
  */
 function getLosers() {
-  return API.getLosers();
+  return API.getLosers()
+  .then(function (value) {
+    console.log(value.data)
+  });
 }
 
 /**
@@ -70,8 +91,13 @@ function getLosers() {
  * @returns {*}
  */
 function getInclineDecline() {
-  return API.getInclineDecline();
+  return API.getInclineDecline()
+  .then(function (value) {
+    console.log(value.data)
+  });
 }
+
+getMarketStatus();
 
 var nse = {
   getMarketStatus: getMarketStatus,
