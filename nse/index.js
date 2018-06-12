@@ -1,4 +1,4 @@
-var API = require('./service/API');
+var NSEAPI = require('./service/NSEAPI');
 
 
 /**
@@ -8,15 +8,24 @@ var API = require('./service/API');
  * @returns {boolean}
  */
 function getMarketStatus() {
-  return API.getMarketStatus();
+  return NSEAPI.getMarketStatus();
 }
 
 /**
- * API returning top indices
+ * API returning indices list
  * @returns {*}
  */
 function getIndices() {
-  return API.getIndices();
+  return NSEAPI.getIndices();
+}
+
+
+/**
+ * API returning indices list v2
+ * @returns {*}
+ */
+function getIndices2() {
+  return NSEAPI.getIndices2();
 }
 
 /**
@@ -31,7 +40,7 @@ function getIndices() {
  * @returns {array}
  */
 function getSectorsList() {
-  return API.getSectorsList();
+  return NSEAPI.getSectorsList();
 }
 
 /**
@@ -41,12 +50,12 @@ function getSectorsList() {
  * @returns {object}
  */
 function getQuoteInfo(symbol) {
-  return API.getQuoteInfo(symbol);
+  return NSEAPI.getQuoteInfo(symbol);
 }
 
 
 function getQuotes(symbol) {
-  return API.getQuotes();
+  return NSEAPI.getQuotes(symbol);
 }
 
 /**
@@ -54,7 +63,7 @@ function getQuotes(symbol) {
  * @returns {*}
  */
 function getGainers() {
-  return API.getGainers();
+  return NSEAPI.getGainers();
 }
 
 /**
@@ -62,7 +71,7 @@ function getGainers() {
  * @returns {*}
  */
 function getLosers() {
-  return API.getLosers();
+  return NSEAPI.getLosers();
 }
 
 /**
@@ -70,12 +79,23 @@ function getLosers() {
  * @returns {*}
  */
 function getInclineDecline() {
-  return API.getInclineDecline();
+  return NSEAPI.getInclineDecline();
 }
+
+/**
+ * Return a json Array of all Equities listed on NSE
+ * @returns {Array}
+ */
+function getAllStocksCSV() {
+  return NSEAPI.getAllStocksCSV();
+}
+
 
 var nse = {
   getMarketStatus: getMarketStatus,
   getIndices: getIndices,
+  getIndices2: getIndices2,
+
   getSectorsList: getSectorsList,
   getQuoteInfo: getQuoteInfo,
 
@@ -85,6 +105,8 @@ var nse = {
   getLosers: getLosers,
 
   getInclineDecline: getInclineDecline,
+
+  getAllStocksCSV: getAllStocksCSV
 };
 
 module.exports = nse;

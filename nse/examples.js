@@ -1,4 +1,4 @@
-var API = require('./service/API');
+var API = require('./service/NSEAPI');
 
 
 /**
@@ -20,9 +20,9 @@ function getMarketStatus() {
  */
 function getIndices() {
   return API.getIndices()
-  .then(function (value) {
-    console.log(value.data)
-  });
+    .then(function (value) {
+      console.log(value.data)
+    });
 }
 
 /**
@@ -38,9 +38,9 @@ function getIndices() {
  */
 function getSectorsList() {
   return API.getSectorsList()
-  .then(function (value) {
-    console.log(value.data)
-  });
+    .then(function (value) {
+      console.log(value.data)
+    });
 }
 
 /**
@@ -51,17 +51,17 @@ function getSectorsList() {
  */
 function getQuoteInfo(symbol) {
   return API.getQuoteInfo(symbol)
-  .then(function (value) {
-    console.log(value.data)
-  });
+    .then(function (value) {
+      console.log(value.data)
+    });
 }
 
 
 function getQuotes(symbol) {
   return API.getQuotes()
-  .then(function (value) {
-    console.log(value.data)
-  });
+    .then(function (value) {
+      console.log(value.data)
+    });
 }
 
 /**
@@ -70,9 +70,9 @@ function getQuotes(symbol) {
  */
 function getGainers() {
   return API.getGainers()
-  .then(function (value) {
-    console.log(value.data)
-  });
+    .then(function (value) {
+      console.log(value.data)
+    });
 }
 
 /**
@@ -81,9 +81,9 @@ function getGainers() {
  */
 function getLosers() {
   return API.getLosers()
-  .then(function (value) {
-    console.log(value.data)
-  });
+    .then(function (value) {
+      console.log(value.data)
+    });
 }
 
 /**
@@ -92,12 +92,22 @@ function getLosers() {
  */
 function getInclineDecline() {
   return API.getInclineDecline()
-  .then(function (value) {
-    console.log(value.data)
-  });
+    .then(function (value) {
+      console.log(value.data)
+    });
 }
 
-getMarketStatus();
+function getAllStocksCSV() {
+  return API.getAllStocksCSV()
+    .then(function (value) {
+      console.log(value.data)
+    });
+}
+
+getAllStocksCSV();
+// getIndices();
+// getQuotes('SUNPHARMA');
+// getQuoteInfo('SUNPHARMA');
 
 var nse = {
   getMarketStatus: getMarketStatus,

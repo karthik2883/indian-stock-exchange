@@ -1,5 +1,5 @@
-# Indian Stock Exchange API
- - Supports API for 'Bombay Stock Exchange'
+# Indian Stock Exchange NSEAPI
+ - Supports NSEAPI for 'Bombay Stock Exchange'
  
  ## BSE
  
@@ -19,6 +19,8 @@
    
  - getMarketStatus
  - getIndices
+ - getIndices2
+ - getAllStocksCSV
  - getGainers
  - getLosers
  - getSectorsList

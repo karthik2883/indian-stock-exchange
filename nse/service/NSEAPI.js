@@ -1,4 +1,7 @@
 var axios = require('axios');
+var csv2Json = require('../../utils/csv2Json');
+var STOCKS_CSV_URL = require('../constant').STOCKS_CSV_URL;
+var INDEX_URL = require('../constant').INDEX_URL;
 var LOSERS_URL = require('../constant').LOSERS_URL;
 var GAINERS_URL = require('../constant').GAINERS_URL;
 var SECTORS_LIST = require('../constant').SECTORS_LIST;
@@ -9,11 +12,34 @@ var MARKET_STATUS_URL = require('../constant').MARKET_STATUS_URL;
 var ADVANCES_DECLINES_URL = require('../constant').ADVANCES_DECLINES_URL;
 
 function getMarketStatus() {
-  return axios.get(MARKET_STATUS_URL);
+  return axios.get(MARKET_STATUS_URL, {
+    transformResponse: function (data) {
+      return {
+        status: JSON.parse(data).NormalMktStatus
+      };
+    }
+  });
+}
+
+function axiosCSV(url) {
+  return axios.get(url, {
+    transformResponse: function (data) {
+      return csv2Json(data);
+    }
+  });
+
 }
 
 function getIndices() {
   return axios.get(INDICES_WATCH_URL);
+}
+
+function getIndices2() {
+  return axios.get(INDEX_URL);
+}
+
+function getAllStocksCSV() {
+  return axiosCSV(STOCKS_CSV_URL);
 }
 
 function getSectorsList() {
@@ -40,8 +66,9 @@ function getInclineDecline() {
   return axios.get(ADVANCES_DECLINES_URL);
 }
 
-var API = {
+var NSEAPI = {
   getIndices: getIndices,
+  getIndices2: getIndices2,
   getMarketStatus: getMarketStatus,
   getSectorsList: getSectorsList,
   getQuotes: getQuotes,
@@ -49,9 +76,11 @@ var API = {
   getGainers: getGainers,
   getLosers: getLosers,
   getInclineDecline: getInclineDecline,
+  getAllStocksCSV: getAllStocksCSV
+
   // getDailyStocks: getDailyStocks,
   // getCompanyInfo: getCompanyInfo,
   // getDayStocks: getDayStocks,
 };
 
-module.exports = API;
+module.exports = NSEAPI;
