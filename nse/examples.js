@@ -104,7 +104,7 @@ function getAllStocksCSV() {
     });
 }
 
-getAllStocksCSV();
+getQuoteInfo('DRREDDY');
 // getIndices();
 // getQuotes('SUNPHARMA');
 // getQuoteInfo('SUNPHARMA');

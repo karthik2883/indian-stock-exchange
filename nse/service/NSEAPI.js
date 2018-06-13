@@ -51,7 +51,12 @@ function getQuotes(symbol) {
 }
 
 function getQuoteInfo(symbol) {
-  return axios.get(QUOTE_INFO_URL + symbol)
+  return axios.get(QUOTE_INFO_URL + symbol, {
+    headers: {
+      Referer: GET_QUOTE_URL + symbol,
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  })
 }
 
 function getGainers() {
