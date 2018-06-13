@@ -8,3 +8,4 @@ exports.GAINERS_URL = 'http://www.nseindia.com/live_market/dynaContent/live_anal
 exports.GET_QUOTE_URL = 'https://nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=';
 exports.INDICES_WATCH_URL = 'https://nseindia.com/live_market/dynaContent/live_watch/stock_watch/liveIndexWatchData.json';
 exports.QUOTE_INFO_URL = 'https://nseindia.com/live_market/dynaContent/live_watch/get_quote/ajaxGetQuoteJSON.jsp?series=EQ&symbol=';
+exports.INDEX_STOCKS_URL = 'https://nseindia.com/live_market/dynaContent/live_watch/stock_watch/';

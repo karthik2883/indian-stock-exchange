@@ -90,6 +90,14 @@ function getAllStocksCSV() {
   return NSEAPI.getAllStocksCSV();
 }
 
+/**
+ * Return stocks list for specified index slug
+ * @param slug
+ * @returns {*}
+ */
+function getIndexStocks(slug) {
+  return NSEAPI.getIndexStocks(slug);
+}
 
 var nse = {
   getMarketStatus: getMarketStatus,
@@ -106,7 +114,9 @@ var nse = {
 
   getInclineDecline: getInclineDecline,
 
-  getAllStocksCSV: getAllStocksCSV
+  getAllStocksCSV: getAllStocksCSV,
+
+  getIndexStocks: getIndexStocks,
 };
 
 module.exports = nse;

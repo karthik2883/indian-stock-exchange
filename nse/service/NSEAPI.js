@@ -1,5 +1,6 @@
 var axios = require('axios');
 var csv2Json = require('../../utils/csv2Json');
+var INDEX_STOCKS_URL = require('../constant').INDEX_STOCKS_URL;
 var STOCKS_CSV_URL = require('../constant').STOCKS_CSV_URL;
 var INDEX_URL = require('../constant').INDEX_URL;
 var LOSERS_URL = require('../constant').LOSERS_URL;
@@ -71,6 +72,10 @@ function getInclineDecline() {
   return axios.get(ADVANCES_DECLINES_URL);
 }
 
+function getIndexStocks(slug) {
+  return axios.get(INDEX_STOCKS_URL + encodeURI(slug) + 'StockWatch.json');
+}
+
 var NSEAPI = {
   getIndices: getIndices,
   getIndices2: getIndices2,
@@ -81,8 +86,8 @@ var NSEAPI = {
   getGainers: getGainers,
   getLosers: getLosers,
   getInclineDecline: getInclineDecline,
-  getAllStocksCSV: getAllStocksCSV
-
+  getAllStocksCSV: getAllStocksCSV,
+  getIndexStocks: getIndexStocks
   // getDailyStocks: getDailyStocks,
   // getCompanyInfo: getCompanyInfo,
   // getDayStocks: getDayStocks,
