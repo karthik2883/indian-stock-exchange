@@ -1,6 +1,5 @@
 var API = require('./service/NSEAPI');
 
-
 /**
  * Returns market status
  * true => market Close
@@ -104,7 +103,14 @@ function getAllStocksCSV() {
     });
 }
 
-getQuoteInfo('DRREDDY');
+function getIntraDayData(symbol) {
+  return API.getIntraDayData('TCS')
+    .then(function (value) {
+      console.log(value.data, 'value')
+    });
+}
+
+getIntraDayData('DRREDDY');
 // getIndices();
 // getQuotes('SUNPHARMA');
 // getQuoteInfo('SUNPHARMA');

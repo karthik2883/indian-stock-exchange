@@ -99,6 +99,17 @@ function getIndexStocks(slug) {
   return NSEAPI.getIndexStocks(slug);
 }
 
+
+/**
+ * Intra-day Stocks data
+ * @param symbol = stock symbol
+ * @param time = {1, 5, 15, 30, 60} minutes
+ * @returns {*}
+ */
+function getIntraDayData(symbol, time) {
+  return NSEAPI.getIntraDayData(symbol, time);
+}
+
 var nse = {
   getMarketStatus: getMarketStatus,
   getIndices: getIndices,
@@ -117,6 +128,8 @@ var nse = {
   getAllStocksCSV: getAllStocksCSV,
 
   getIndexStocks: getIndexStocks,
+
+  getIntraDayData: getIntraDayData
 };
 
 module.exports = nse;
