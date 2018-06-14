@@ -106,7 +106,7 @@ function getIndexStocks(slug) {
  * @param time = {1, 5, 15, 30, 60} minutes
  * @returns {*}
  */
-function getIntraDayData(symbol, time) {
+function getIntraDayDataXML(symbol, time) {
   return NSEAPI.getIntraDayData(symbol, time);
 }
 
@@ -129,7 +129,7 @@ var nse = {
 
   getIndexStocks: getIndexStocks,
 
-  getIntraDayData: getIntraDayData
+  getIntraDayDataXML: getIntraDayData
 };
 
 module.exports = nse;

@@ -125,7 +125,7 @@ function getIntraDayData(symbol, time) {
     default:
       period = 1;
   }
-  return axiosXMLTransformer(INTRADAY_URL + symbol + '&Periodicity=' + period);
+  return axios.get(INTRADAY_URL + symbol + '&Periodicity=' + period);
 }
 
 var NSEAPI = {
