@@ -129,7 +129,7 @@ var nse = {
 
   getIndexStocks: getIndexStocks,
 
-  getIntraDayDataXML: getIntraDayData
+  getIntraDayDataXML: getIntraDayDataXML
 };
 
 module.exports = nse;

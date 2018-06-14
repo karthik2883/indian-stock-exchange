@@ -1,5 +1,4 @@
 var axios = require('axios');
-var parser = require('xml2json');
 
 var csv2Json = require('../../utils/csv2Json');
 var INTRADAY_URL = require('../constant').INTRADAY_URL;
@@ -14,31 +13,6 @@ var QUOTE_INFO_URL = require('../constant').QUOTE_INFO_URL;
 var INDICES_WATCH_URL = require('../constant').INDICES_WATCH_URL;
 var MARKET_STATUS_URL = require('../constant').MARKET_STATUS_URL;
 var ADVANCES_DECLINES_URL = require('../constant').ADVANCES_DECLINES_URL;
-
-
-function axiosXMLTransformer(url) {
-  return axios.get(url, {
-    transformResponse: function (data) {
-      try {
-        var json = parser.toJson(data.trim(), {
-          object: false,
-          reversible: false,
-          coerce: false,
-          sanitize: true,
-          trim: true,
-          arrayNotation: false,
-          alternateTextNode: false
-        });
-        var parsedData = JSON.parse(json).settings.data_sets.data_set.csv;
-        parsedData.data = csv2Json(parsedData.columns.column + '\n' + parsedData.data);
-        return parsedData;
-      }
-      catch (e) {
-        return data;
-      }
-    }
-  });
-}
 
 function getMarketStatus() {
   return axios.get(MARKET_STATUS_URL, {
