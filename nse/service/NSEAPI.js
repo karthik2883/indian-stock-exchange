@@ -118,8 +118,6 @@ function getIntraDayData(symbol, time) {
         period = 1;
     }
   }
-  console.log(periodType,'pt', period, time);
-
 
   return axios.get(INTRADAY_URL + encodeURIComponent(symbol) + '&Periodicity=' + period + '&PeriodType=' + periodType);
 }
