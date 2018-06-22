@@ -103,7 +103,7 @@ function getIndexStocks(slug) {
 /**
  * Intra-day Stocks data
  * @param symbol = stock symbol
- * @param time = {1, 5, 15, 30, 60} minutes
+ * @param time = {1, 5, 15, 30, 60, 'week', 'month', 'year'} minutes
  * @returns {*}
  */
 function getIntraDayDataXML(symbol, time) {

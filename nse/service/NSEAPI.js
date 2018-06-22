@@ -79,27 +79,49 @@ function getIndexStocks(slug) {
 }
 
 function getIntraDayData(symbol, time) {
+  var periodType = typeof time === 'string' ? 1 : 2;
   var period = 1;
-  switch (time) {
-    case 1:
-      period = 1;
-      break;
-    case 5:
-      period = 2;
-      break;
-    case 15:
-      period = 3;
-      break;
-    case 30:
-      period = 4;
-      break;
-    case 60:
-      period = 5;
-      break;
-    default:
-      period = 1;
+
+  if (periodType === 1) {
+    switch (time) {
+      case 'week':
+        period = 2;
+        break;
+      case 'month':
+        period = 3;
+        break;
+      case 'year':
+        period = 1;
+        break;
+      default:
+        period = 2;
+        break;
+    }
+  } else {
+    switch (time) {
+      case 1:
+        period = 1;
+        break;
+      case 5:
+        period = 2;
+        break;
+      case 15:
+        period = 3;
+        break;
+      case 30:
+        period = 4;
+        break;
+      case 60:
+        period = 5;
+        break;
+      default:
+        period = 1;
+    }
   }
-  return axios.get(INTRADAY_URL + encodeURIComponent(symbol) + '&Periodicity=' + period);
+  console.log(periodType,'pt', period, time);
+
+
+  return axios.get(INTRADAY_URL + encodeURIComponent(symbol) + '&Periodicity=' + period + '&PeriodType=' + periodType);
 }
 
 var NSEAPI = {
