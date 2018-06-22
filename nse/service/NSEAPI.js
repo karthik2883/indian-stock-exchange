@@ -50,13 +50,13 @@ function getSectorsList() {
 }
 
 function getQuotes(symbol) {
-  return axios.get(GET_QUOTE_URL + symbol);
+  return axios.get(GET_QUOTE_URL + encodeURIComponent(symbol));
 }
 
 function getQuoteInfo(symbol) {
-  return axios.get(QUOTE_INFO_URL + symbol, {
+  return axios.get(QUOTE_INFO_URL + encodeURIComponent(symbol), {
     headers: {
-      Referer: GET_QUOTE_URL + symbol,
+      Referer: GET_QUOTE_URL + encodeURIComponent(symbol),
       'X-Requested-With': 'XMLHttpRequest'
     }
   })
@@ -99,7 +99,7 @@ function getIntraDayData(symbol, time) {
     default:
       period = 1;
   }
-  return axios.get(INTRADAY_URL + symbol + '&Periodicity=' + period);
+  return axios.get(INTRADAY_URL + encodeURIComponent(symbol) + '&Periodicity=' + period);
 }
 
 var NSEAPI = {
