@@ -104,13 +104,20 @@ function getAllStocksCSV() {
 }
 
 function getIntraDayData(symbol) {
-  return API.getIntraDayData('TCS')
+  return API.getIntraDayData('TCS', 'month')
     .then(function (value) {
       console.log(value.data, 'value')
     });
 }
 
-getIntraDayData('DRREDDY');
+function getCandleStickData(symbol) {
+  return API.getCandleStickData(symbol, 1, true)
+    .then(function (value) {
+      console.log(value.data, 'value')
+    });
+}
+
+getCandleStickData('NIFTY 50');
 // getIndices();
 // getQuotes('SUNPHARMA');
 // getQuoteInfo('SUNPHARMA');

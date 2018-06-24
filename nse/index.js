@@ -110,6 +110,18 @@ function getIntraDayDataXML(symbol, time) {
   return NSEAPI.getIntraDayData(symbol, time);
 }
 
+
+/**
+ * Get CandleStick Data
+ * @param symbol = stock symbol
+ * @param time = {1, 5, 15, 30, 60, 'week', 'month', 'year'} minutes
+ * @param isIndex {boolean} to fetch candleStick data of index
+ * @returns {*}
+ */
+function getCandleStickData(symbol, time, isIndex) {
+  return NSEAPI.getCandleStickData(symbol, time, isIndex);
+}
+
 var nse = {
   getMarketStatus: getMarketStatus,
   getIndices: getIndices,
@@ -129,7 +141,9 @@ var nse = {
 
   getIndexStocks: getIndexStocks,
 
-  getIntraDayDataXML: getIntraDayDataXML
+  getIntraDayDataXML: getIntraDayDataXML,
+
+  getCandleStickData: getCandleStickData
 };
 
 module.exports = nse;

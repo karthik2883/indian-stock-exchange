@@ -10,3 +10,4 @@ exports.INDICES_WATCH_URL = 'https://nseindia.com/live_market/dynaContent/live_w
 exports.QUOTE_INFO_URL = 'https://nseindia.com/live_market/dynaContent/live_watch/get_quote/ajaxGetQuoteJSON.jsp?series=EQ&symbol=';
 exports.INDEX_STOCKS_URL = 'https://nseindia.com/live_market/dynaContent/live_watch/stock_watch/';
 exports.INTRADAY_URL = 'https://nseindia.com/charts/webtame/tame_intraday_getQuote_closing_redgreen.jsp?Segment=CM&Series=EQ&CDExpiryMonth=&FOExpiryMonth=&IRFExpiryMonth=&CDDate1=&CDDate2=&Template=tame_intraday_getQuote_closing_redgreen.jsp&CDSymbol=';
+exports.CANDLESTICK_URL = 'https://www.nseindia.com/ChartApp/install/charts/data/GetHistoricalNew.jsp';

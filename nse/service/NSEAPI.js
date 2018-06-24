@@ -1,6 +1,8 @@
 var axios = require('axios');
 
 var csv2Json = require('../../utils/csv2Json');
+var candleStickMapper = require('../../utils/candleStickMapper');
+var CANDLESTICK_URL = require('../constant').CANDLESTICK_URL;
 var INTRADAY_URL = require('../constant').INTRADAY_URL;
 var INDEX_STOCKS_URL = require('../constant').INDEX_STOCKS_URL;
 var STOCKS_CSV_URL = require('../constant').STOCKS_CSV_URL;
@@ -13,6 +15,45 @@ var QUOTE_INFO_URL = require('../constant').QUOTE_INFO_URL;
 var INDICES_WATCH_URL = require('../constant').INDICES_WATCH_URL;
 var MARKET_STATUS_URL = require('../constant').MARKET_STATUS_URL;
 var ADVANCES_DECLINES_URL = require('../constant').ADVANCES_DECLINES_URL;
+
+function getTime(periodType, time) {
+  if (periodType === 1) {
+    switch (time) {
+      case 'week':
+        return 2;
+      case 'month':
+        return 3;
+      case 'year':
+        return 1;
+      default:
+        return 2;
+    }
+  } else {
+    switch (time) {
+      case 1:
+        return 1;
+      case 5:
+        return 2;
+      case 15:
+        return 3;
+      case 30:
+        return 4;
+      case 60:
+        return 5;
+      default:
+        return 1;
+    }
+  }
+}
+
+function getCandleStick(url, data, headers) {
+  return axios.post(url, data, {
+    headers: headers,
+    transformResponse: function (data) {
+      return candleStickMapper(data);
+    }
+  })
+}
 
 function getMarketStatus() {
   return axios.get(MARKET_STATUS_URL, {
@@ -80,46 +121,32 @@ function getIndexStocks(slug) {
 
 function getIntraDayData(symbol, time) {
   var periodType = typeof time === 'string' ? 1 : 2;
-  var period = 1;
-
-  if (periodType === 1) {
-    switch (time) {
-      case 'week':
-        period = 2;
-        break;
-      case 'month':
-        period = 3;
-        break;
-      case 'year':
-        period = 1;
-        break;
-      default:
-        period = 2;
-        break;
-    }
-  } else {
-    switch (time) {
-      case 1:
-        period = 1;
-        break;
-      case 5:
-        period = 2;
-        break;
-      case 15:
-        period = 3;
-        break;
-      case 30:
-        period = 4;
-        break;
-      case 60:
-        period = 5;
-        break;
-      default:
-        period = 1;
-    }
-  }
+  var period = getTime(periodType, time);
 
   return axios.get(INTRADAY_URL + encodeURIComponent(symbol) + '&Periodicity=' + period + '&PeriodType=' + periodType);
+}
+
+function getCandleStickData(symbol, time, isIndex) {
+  var periodType = typeof time === 'string' ? 1 : 2;
+  var period = getTime(periodType, time);
+  var segment = isIndex ? 'OI' : 'CM';
+
+  var options =
+    {
+      headers: {
+        'Referer': 'https://www.nseindia.com/ChartApp/install/charts/mainpage.jsp',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Host: 'www.nseindia.com'
+      }
+    };
+
+  var data = 'Instrument=FUTSTK&CDSymbol=' + symbol +
+    '&Segment=' + segment +
+    '&Series=EQ&CDExpiryMonth=1&FOExpiryMonth=1&CDIntraExpiryMonth=&' +
+    'FOIntraExpiryMonth=&IRFIntraExpiryMonth=&CDDate1=&CDDate2=&PeriodType=' + periodType +
+    '&Periodicity=' + period + '&ct0=g1%7C1%7C1&ct1=g2%7C2%7C1&ctcount=2&time=' + new Date().getTime();
+
+  return getCandleStick(CANDLESTICK_URL, data, options.headers);
 }
 
 var NSEAPI = {
@@ -134,7 +161,8 @@ var NSEAPI = {
   getInclineDecline: getInclineDecline,
   getAllStocksCSV: getAllStocksCSV,
   getIndexStocks: getIndexStocks,
-  getIntraDayData: getIntraDayData
+  getIntraDayData: getIntraDayData,
+  getCandleStickData: getCandleStickData
   // getDailyStocks: getDailyStocks,
   // getCompanyInfo: getCompanyInfo,
   // getDayStocks: getDayStocks,
