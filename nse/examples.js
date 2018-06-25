@@ -117,7 +117,16 @@ function getCandleStickData(symbol) {
     });
 }
 
-getCandleStickData('NIFTY 50');
+function searchStocks(symbol) {
+  return API.searchStocks(symbol)
+    .then(function (value) {
+      var data = value.data;
+      console.log(data);
+
+    });
+}
+
+searchStocks('IN');
 // getIndices();
 // getQuotes('SUNPHARMA');
 // getQuoteInfo('SUNPHARMA');

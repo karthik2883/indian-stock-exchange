@@ -122,6 +122,16 @@ function getCandleStickData(symbol, time, isIndex) {
   return NSEAPI.getCandleStickData(symbol, time, isIndex);
 }
 
+/**
+ * Search NSE Stocks by symbol or name
+ * @param symbol {string} min 3 chars
+ * @returns {[{name, symbol]}
+ */
+
+function searchStocks(symbol) {
+  return NSEAPI.searchStocks(symbol);
+}
+
 var nse = {
   getMarketStatus: getMarketStatus,
   getIndices: getIndices,
@@ -143,7 +153,9 @@ var nse = {
 
   getIntraDayDataXML: getIntraDayDataXML,
 
-  getCandleStickData: getCandleStickData
+  getCandleStickData: getCandleStickData,
+
+  searchStocks: searchStocks,
 };
 
 module.exports = nse;

@@ -2,6 +2,7 @@ var axios = require('axios');
 
 var csv2Json = require('../../utils/csv2Json');
 var candleStickMapper = require('../../utils/candleStickMapper');
+var SEARCH_URL = require('../constant').SEARCH_URL;
 var CANDLESTICK_URL = require('../constant').CANDLESTICK_URL;
 var INTRADAY_URL = require('../constant').INTRADAY_URL;
 var INDEX_STOCKS_URL = require('../constant').INDEX_STOCKS_URL;
@@ -149,6 +150,29 @@ function getCandleStickData(symbol, time, isIndex) {
   return getCandleStick(CANDLESTICK_URL, data, options.headers);
 }
 
+function searchStocks(searchString) {
+  var options = {
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Referer': 'https://www.nseindia.com/ChartApp/install/charts/mainpage.jsp',
+      Host: 'www.nseindia.com'
+    },
+    transformResponse: function (data) {
+      var matches = data.match(/<li>(.*?)<\/li>/g);
+      return matches.map(function (value1) {
+        var symbol = value1.match(/symbol=(.*?)&/);
+        value1 = value1.replace(/<(.|\n)*?>/g, '').replace(symbol[1], '');
+        return {
+          name: value1 || '',
+          symbol: symbol[1] || ''
+        }
+      });
+    }
+  };
+
+  return axios.get(SEARCH_URL + encodeURIComponent(searchString), options);
+}
+
 var NSEAPI = {
   getIndices: getIndices,
   getIndices2: getIndices2,
@@ -162,7 +186,8 @@ var NSEAPI = {
   getAllStocksCSV: getAllStocksCSV,
   getIndexStocks: getIndexStocks,
   getIntraDayData: getIntraDayData,
-  getCandleStickData: getCandleStickData
+  getCandleStickData: getCandleStickData,
+  searchStocks: searchStocks
   // getDailyStocks: getDailyStocks,
   // getCompanyInfo: getCompanyInfo,
   // getDayStocks: getDayStocks,

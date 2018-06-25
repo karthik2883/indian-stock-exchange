@@ -1659,7 +1659,7 @@
 
 
 <div class="description">
-    API returning top indices
+    API returning indices list
 </div>
 
 
@@ -1703,7 +1703,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nse_examples.js.html">nse/examples.js</a>, <a href="nse_examples.js.html#line20">line 20</a>
+        <a href="nse_index.js.html">nse/index.js</a>, <a href="nse_index.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -1763,7 +1763,7 @@
 
 
 <div class="description">
-    API returning indices list
+    API returning top indices
 </div>
 
 
@@ -1807,7 +1807,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nse_index.js.html">nse/index.js</a>, <a href="nse_index.js.html#line18">line 18</a>
+        <a href="nse_examples.js.html">nse/examples.js</a>, <a href="nse_examples.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -2241,7 +2241,7 @@
 
 
 <div class="description">
-    Get List of Losers
+    API returning top Losers of day
 </div>
 
 
@@ -2285,7 +2285,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nse_index.js.html">nse/index.js</a>, <a href="nse_index.js.html#line73">line 73</a>
+        <a href="bse_index.js.html">bse/index.js</a>, <a href="bse_index.js.html#line37">line 37</a>
     </li></ul></dd>
     
 
@@ -2345,7 +2345,7 @@
 
 
 <div class="description">
-    API returning top Losers of day
+    Get List of Losers
 </div>
 
 
@@ -2389,7 +2389,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="bse_index.js.html">bse/index.js</a>, <a href="bse_index.js.html#line37">line 37</a>
+        <a href="nse_index.js.html">nse/index.js</a>, <a href="nse_index.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -2495,7 +2495,7 @@ false => market Open
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nse_index.js.html">nse/index.js</a>, <a href="nse_index.js.html#line10">line 10</a>
+        <a href="nse_examples.js.html">nse/examples.js</a>, <a href="nse_examples.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -2601,7 +2601,7 @@ false => market Open
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nse_examples.js.html">nse/examples.js</a>, <a href="nse_examples.js.html#line9">line 9</a>
+        <a href="nse_index.js.html">nse/index.js</a>, <a href="nse_index.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -3280,6 +3280,151 @@ false => market Open
 
 
         
+            
+
+    
+
+    
+    <h4 class="name" id="searchStocks"><span class="type-signature"></span>searchStocks<span class="signature">(symbol)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Search NSE Stocks by symbol or name
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>symbol</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">min 3 chars</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="nse_index.js.html">nse/index.js</a>, <a href="nse_index.js.html#line131">line 131</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    {[{name, symbol]}
+</div>
+
+
+
+    
+
+
+
+
+
+        
     
 
     
@@ -3295,13 +3440,13 @@ false => market Open
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getAllStocksCSV">getAllStocksCSV</a></li><li><a href="global.html#getCandleStickData">getCandleStickData</a></li><li><a href="global.html#getCompanyInfo">getCompanyInfo</a></li><li><a href="global.html#getDailyStocks">getDailyStocks</a></li><li><a href="global.html#getDayStocks">getDayStocks</a></li><li><a href="global.html#getGainers">getGainers</a></li><li><a href="global.html#getInclineDecline">getInclineDecline</a></li><li><a href="global.html#getIndexStocks">getIndexStocks</a></li><li><a href="global.html#getIndices">getIndices</a></li><li><a href="global.html#getIndices2">getIndices2</a></li><li><a href="global.html#getIntraDayDataXML">getIntraDayDataXML</a></li><li><a href="global.html#getLosers">getLosers</a></li><li><a href="global.html#getMarketStatus">getMarketStatus</a></li><li><a href="global.html#getQuoteInfo">getQuoteInfo</a></li><li><a href="global.html#getSectorsList">getSectorsList</a></li><li><a href="global.html#getTopTurnOvers">getTopTurnOvers</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getAllStocksCSV">getAllStocksCSV</a></li><li><a href="global.html#getCandleStickData">getCandleStickData</a></li><li><a href="global.html#getCompanyInfo">getCompanyInfo</a></li><li><a href="global.html#getDailyStocks">getDailyStocks</a></li><li><a href="global.html#getDayStocks">getDayStocks</a></li><li><a href="global.html#getGainers">getGainers</a></li><li><a href="global.html#getInclineDecline">getInclineDecline</a></li><li><a href="global.html#getIndexStocks">getIndexStocks</a></li><li><a href="global.html#getIndices">getIndices</a></li><li><a href="global.html#getIndices2">getIndices2</a></li><li><a href="global.html#getIntraDayDataXML">getIntraDayDataXML</a></li><li><a href="global.html#getLosers">getLosers</a></li><li><a href="global.html#getMarketStatus">getMarketStatus</a></li><li><a href="global.html#getQuoteInfo">getQuoteInfo</a></li><li><a href="global.html#getSectorsList">getSectorsList</a></li><li><a href="global.html#getTopTurnOvers">getTopTurnOvers</a></li><li><a href="global.html#searchStocks">searchStocks</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Jun 25 2018 17:09:10 GMT+0530 (IST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Jun 25 2018 18:50:43 GMT+0530 (IST)
 </footer>
 
 <script> prettyPrint(); </script>
