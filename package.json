@@ -4,7 +4,7 @@
   "description": "A Library which fetched data from Bombay Stock Exchange and return in JSON format.",
   "main": "index.js",
   "scripts": {
-    "docs": "jsdoc --readme README.md bse -d docs",
+    "docs": "jsdoc --readme README.md bse nse -d docs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "kaushiknishchay",
