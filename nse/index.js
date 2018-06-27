@@ -133,12 +133,12 @@ function searchStocks(symbol) {
 }
 
 /**
- * Search NSE Index
+ * Search Equity Derivatives
  * @param symbol {string} min 3 chars
  * @returns {[{name, symbol]}
  */
 
-function searchIndex(symbol) {
+function searchEquityDerivatives(symbol) {
   return NSEAPI.searchIndex(symbol);
 }
 
@@ -167,7 +167,7 @@ var nse = {
 
   searchStocks: searchStocks,
 
-  searchIndex: searchIndex,
+  searchEquityDerivatives: searchEquityDerivatives,
 };
 
 module.exports = nse;

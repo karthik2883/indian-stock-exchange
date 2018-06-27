@@ -2,7 +2,7 @@ var axios = require('axios');
 
 var csv2Json = require('../../utils/csv2Json');
 var candleStickMapper = require('../../utils/candleStickMapper');
-var SEARCH_INDEX_URL = require('../constant').SEARCH_INDEX_URL;
+var SEARCH_FUTURE_OPTIONS_URL = require('../constant').SEARCH_FUTURE_OPTIONS_URL;
 var SEARCH_URL = require('../constant').SEARCH_URL;
 var CANDLESTICK_URL = require('../constant').CANDLESTICK_URL;
 var INTRADAY_URL = require('../constant').INTRADAY_URL;
@@ -185,7 +185,7 @@ function searchStocks(searchString) {
   return axios.get(SEARCH_URL + encodeURIComponent(searchString), options);
 }
 
-function searchIndex(searchString) {
+function searchEquityDerivatives(searchString) {
   var options = {
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
@@ -195,7 +195,7 @@ function searchIndex(searchString) {
     transformResponse: searchTransformer(true)
   };
 
-  return axios.get(SEARCH_INDEX_URL + encodeURIComponent(searchString), options);
+  return axios.get(SEARCH_FUTURE_OPTIONS_URL + encodeURIComponent(searchString), options);
 }
 
 var NSEAPI = {
@@ -213,7 +213,7 @@ var NSEAPI = {
   getIntraDayData: getIntraDayData,
   getCandleStickData: getCandleStickData,
   searchStocks: searchStocks,
-  searchIndex: searchIndex
+  searchEquityDerivatives: searchEquityDerivatives
   // getDailyStocks: getDailyStocks,
   // getCompanyInfo: getCompanyInfo,
   // getDayStocks: getDayStocks,
