@@ -38,6 +38,7 @@
  - getIntraDayData(symbol, time) => time values = (1, 5, 15, 30, 60, 'week', 'month', 'year') // pass int values as integer and not string (!important)
  - getCandleStickData(symbol, time, isIndex: boolean) => time values as above, isIndex param to fetch data for indices
  - searchStocks(string) => search stocks by name or symbol (min 3 chars)
+ - searchIndex(string) => search indices (min 3 chars)
 
 
 ## Slug List

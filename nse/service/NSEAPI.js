@@ -2,6 +2,7 @@ var axios = require('axios');
 
 var csv2Json = require('../../utils/csv2Json');
 var candleStickMapper = require('../../utils/candleStickMapper');
+var SEARCH_INDEX_URL = require('../constant').SEARCH_INDEX_URL;
 var SEARCH_URL = require('../constant').SEARCH_URL;
 var CANDLESTICK_URL = require('../constant').CANDLESTICK_URL;
 var INTRADAY_URL = require('../constant').INTRADAY_URL;
@@ -44,6 +45,27 @@ function getTime(periodType, time) {
       default:
         return 1;
     }
+  }
+}
+
+function searchTransformer(isIndex) {
+  var matcher = '';
+  if (isIndex) {
+    matcher = /underlying=(.*?)&/;
+  } else {
+    matcher = /symbol=(.*?)&/;
+  }
+
+  return function (data) {
+    var matches = data.match(/<li>(.*?)<\/li>/g);
+    return matches.map(function (value1) {
+      var symbol = value1.match(matcher);
+      value1 = value1.replace(/<(.|\n)*?>/g, '').replace(symbol[1], '');
+      return {
+        name: value1 || '',
+        symbol: symbol[1] || ''
+      }
+    });
   }
 }
 
@@ -157,20 +179,23 @@ function searchStocks(searchString) {
       'Referer': 'https://www.nseindia.com/ChartApp/install/charts/mainpage.jsp',
       Host: 'www.nseindia.com'
     },
-    transformResponse: function (data) {
-      var matches = data.match(/<li>(.*?)<\/li>/g);
-      return matches.map(function (value1) {
-        var symbol = value1.match(/symbol=(.*?)&/);
-        value1 = value1.replace(/<(.|\n)*?>/g, '').replace(symbol[1], '');
-        return {
-          name: value1 || '',
-          symbol: symbol[1] || ''
-        }
-      });
-    }
+    transformResponse: searchTransformer(false)
   };
 
   return axios.get(SEARCH_URL + encodeURIComponent(searchString), options);
+}
+
+function searchIndex(searchString) {
+  var options = {
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Referer': 'https://www.nseindia.com/ChartApp/install/charts/mainpage.jsp',
+      Host: 'www.nseindia.com'
+    },
+    transformResponse: searchTransformer(true)
+  };
+
+  return axios.get(SEARCH_INDEX_URL + encodeURIComponent(searchString), options);
 }
 
 var NSEAPI = {
@@ -187,7 +212,8 @@ var NSEAPI = {
   getIndexStocks: getIndexStocks,
   getIntraDayData: getIntraDayData,
   getCandleStickData: getCandleStickData,
-  searchStocks: searchStocks
+  searchStocks: searchStocks,
+  searchIndex: searchIndex
   // getDailyStocks: getDailyStocks,
   // getCompanyInfo: getCompanyInfo,
   // getDayStocks: getDayStocks,

@@ -126,7 +126,16 @@ function searchStocks(symbol) {
     });
 }
 
-searchStocks('IN');
+function searchIndex(symbol) {
+  return API.searchIndex(symbol)
+    .then(function (value) {
+      var data = value.data;
+      console.log(data);
+
+    });
+}
+
+searchIndex('NIF');
 // getIndices();
 // getQuotes('SUNPHARMA');
 // getQuoteInfo('SUNPHARMA');

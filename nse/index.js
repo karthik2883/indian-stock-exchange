@@ -132,6 +132,16 @@ function searchStocks(symbol) {
   return NSEAPI.searchStocks(symbol);
 }
 
+/**
+ * Search NSE Index
+ * @param symbol {string} min 3 chars
+ * @returns {[{name, symbol]}
+ */
+
+function searchIndex(symbol) {
+  return NSEAPI.searchIndex(symbol);
+}
+
 var nse = {
   getMarketStatus: getMarketStatus,
   getIndices: getIndices,
@@ -156,6 +166,8 @@ var nse = {
   getCandleStickData: getCandleStickData,
 
   searchStocks: searchStocks,
+
+  searchIndex: searchIndex,
 };
 
 module.exports = nse;
