@@ -13,3 +13,6 @@ exports.INTRADAY_URL = 'https://nseindia.com/charts/webtame/tame_intraday_getQuo
 exports.CANDLESTICK_URL = 'https://www.nseindia.com/ChartApp/install/charts/data/GetHistoricalNew.jsp';
 exports.SEARCH_URL = 'https://nseindia.com/live_market/dynaContent/live_watch/get_quote/ajaxCompanySearch.jsp?search=';
 exports.SEARCH_FUTURE_OPTIONS_URL = 'https://nseindia.com/live_market/dynaContent/live_watch/get_quote/ajaxFOQuoteSearch.jsp?search=';
+exports.STOCK_FUTURES_URL = 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuoteFO.jsp?instrument=FUTSTK&type=-&strike=-&underlying=';
+exports.STOCK_OPTIONS_INFO_URL = 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/ajaxFOGetQuoteDataTest.jsp';
+exports.STOCK_OPTIONS_URL = 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/ajaxFOGetQuoteJSON.jsp';

@@ -135,10 +135,17 @@ function searchIndex(symbol) {
     });
 }
 
-searchIndex('NIF');
-// getIndices();
-// getQuotes('SUNPHARMA');
-// getQuoteInfo('SUNPHARMA');
+
+function getStockFuturesData(symbol) {
+  return API.getStockFuturesData(symbol,'26JUL2018')
+    .then(function (value) {
+      var data = value.data;
+      console.log(data);
+    });
+}
+
+getStockFuturesData('INFY');
+
 
 var nse = {
   getMarketStatus: getMarketStatus,

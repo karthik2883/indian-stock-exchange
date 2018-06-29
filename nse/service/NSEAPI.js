@@ -2,6 +2,9 @@ var axios = require('axios');
 
 var csv2Json = require('../../utils/csv2Json');
 var candleStickMapper = require('../../utils/candleStickMapper');
+var STOCK_OPTIONS_INFO_URL = require('../constant').STOCK_OPTIONS_INFO_URL;
+var STOCK_OPTIONS_URL = require('../constant').STOCK_OPTIONS_URL;
+var STOCK_FUTURES_URL = require('../constant').STOCK_FUTURES_URL;
 var SEARCH_FUTURE_OPTIONS_URL = require('../constant').SEARCH_FUTURE_OPTIONS_URL;
 var SEARCH_URL = require('../constant').SEARCH_URL;
 var CANDLESTICK_URL = require('../constant').CANDLESTICK_URL;
@@ -48,6 +51,10 @@ function getTime(periodType, time) {
   }
 }
 
+function stripTags(string) {
+  return string.replace(/<(.|\n)*?>/g, '').trim();
+}
+
 function searchTransformer(isIndex) {
   var matcher = '';
   if (isIndex) {
@@ -60,7 +67,7 @@ function searchTransformer(isIndex) {
     var matches = data.match(/<li>(.*?)<\/li>/g);
     return matches.map(function (value1) {
       var symbol = value1.match(matcher);
-      value1 = value1.replace(/<(.|\n)*?>/g, '').replace(symbol[1], '');
+      value1 = stripTags(value1).replace(symbol[1], '');
       return {
         name: value1 || '',
         symbol: symbol[1] || ''
@@ -198,6 +205,81 @@ function searchEquityDerivatives(searchString) {
   return axios.get(SEARCH_FUTURE_OPTIONS_URL + encodeURIComponent(searchString), options);
 }
 
+function getStockFutureOptionsExpiryDates(symbol, isFutures) {
+  var params = {
+    i: isFutures ? 'FUTSTK' : 'OPTSTK',
+    u: symbol,
+    o: '',
+    k: ''
+  };
+
+  return axios({
+    method: 'GET',
+    url: STOCK_OPTIONS_INFO_URL,
+    params: params
+  });
+}
+
+function getStockOptionsPrices(symbol, expiryDate, isCall) {
+  var params = {
+    i: 'OPTSTK',
+    e: expiryDate,
+    u: symbol,
+    o: isCall ? 'CE' : 'PE',
+    k: isCall ? 'CE' : 'PE'
+  };
+
+  return axios({
+    method: 'GET',
+    url: STOCK_OPTIONS_INFO_URL,
+    params: params
+  });
+}
+
+function getStockOptionsData(symbol, expiryDate, isCall, strikePrice) {
+  var params = {
+    'underlying': symbol,
+    'instrument': 'OPTSTK',
+    'expiry': expiryDate,
+    'type': isCall ? 'CE' : 'PE',
+    'strike': strikePrice
+  };
+
+  return axios({
+    method: 'GET',
+    url: STOCK_OPTIONS_URL,
+    params: params,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      Host: 'www.nseindia.com',
+      'Referer': 'https://nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuoteFO.jsp?underlying=' + symbol + '&instrument=OPTSTK&type=-&strike=-&expiry=' + expiryDate,
+    }
+  });
+}
+
+
+function getStockFuturesData(symbol, expiryDate) {
+  var params = {
+    'underlying': symbol,
+    'instrument': 'FUTSTK',
+    'expiry': expiryDate,
+    'type': 'SELECT',
+    'strike': 'SELECT'
+  };
+
+  return axios({
+    method: 'GET',
+    url: STOCK_OPTIONS_URL,
+    params: params,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      Host: 'www.nseindia.com',
+      'Referer': 'https://nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuoteFO.jsp?underlying=' + symbol + '&instrument=FUTSTK&type=-&strike=-&expiry=' + expiryDate,
+    }
+  });
+}
+
+
 var NSEAPI = {
   getIndices: getIndices,
   getIndices2: getIndices2,
@@ -213,10 +295,12 @@ var NSEAPI = {
   getIntraDayData: getIntraDayData,
   getCandleStickData: getCandleStickData,
   searchStocks: searchStocks,
-  searchEquityDerivatives: searchEquityDerivatives
-  // getDailyStocks: getDailyStocks,
-  // getCompanyInfo: getCompanyInfo,
-  // getDayStocks: getDayStocks,
+  searchEquityDerivatives: searchEquityDerivatives,
+
+  getStockFutureOptionsExpiryDates: getStockFutureOptionsExpiryDates,
+  getStockOptionsPrices: getStockOptionsPrices,
+  getStockOptionsData: getStockOptionsData,
+  getStockFuturesData: getStockFuturesData
 };
 
 module.exports = NSEAPI;

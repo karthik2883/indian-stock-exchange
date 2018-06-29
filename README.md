@@ -39,6 +39,15 @@
  - getCandleStickData(symbol, time, isIndex: boolean) => time values as above, isIndex param to fetch data for indices
  - searchStocks(string) => search stocks by name or symbol (min 3 chars)
  - searchEquityDerivatives(string) => search Equity Derivatives (min 3 chars) (! provides wrapper around site search)
+ 
+ 
+ - getStockFutureOptionsExpiryDates(symbol, isFutures? boolean) 
+ 
+ - getStockOptionsPrices(symbol, expiryDate, isCall? boolean) expiryDate value must be from one of values returned by above methods
+ 
+ - getStockOptionsData(symbol, expiryDate, isCall, strikePrice) strikePrice value from above api result only
+ 
+ - getStockFuturesData(symbol, expiryDate) expiryDate from api method only
 
 
 ## Slug List
