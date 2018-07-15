@@ -110,6 +110,16 @@ function getIntraDayDataXML(symbol, time) {
   return NSEAPI.getIntraDayData(symbol, time);
 }
 
+/**
+ * Intra-day Index chart data
+ * @param symbol = index symbol
+ * @param time [1, 5, 15, 30, 60, 'week', 'month', 'year'] minutes
+ * @returns {*}
+ */
+function getIndexChartData(symbol, time) {
+  return NSEAPI.getIndexChartData(symbol, time);
+}
+
 
 /**
  * Get CandleStick Data
@@ -206,6 +216,8 @@ var nse = {
   getIndexStocks: getIndexStocks,
 
   getIntraDayDataXML: getIntraDayDataXML,
+
+  getIndexChartData: getIndexChartData,
 
   getCandleStickData: getCandleStickData,
 

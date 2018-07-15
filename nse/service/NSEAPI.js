@@ -2,6 +2,7 @@ var axios = require('axios');
 
 var csv2Json = require('../../utils/csv2Json');
 var candleStickMapper = require('../../utils/candleStickMapper');
+var INDEX_CHARTDATA_URL = require('../constant').INDEX_CHARTDATA_URL;
 var STOCK_OPTIONS_INFO_URL = require('../constant').STOCK_OPTIONS_INFO_URL;
 var STOCK_OPTIONS_URL = require('../constant').STOCK_OPTIONS_URL;
 var STOCK_FUTURES_URL = require('../constant').STOCK_FUTURES_URL;
@@ -156,6 +157,13 @@ function getIntraDayData(symbol, time) {
   return axios.get(INTRADAY_URL + encodeURIComponent(symbol) + '&Periodicity=' + period + '&PeriodType=' + periodType);
 }
 
+function getIndexChartData(symbol, time) {
+  var periodType = typeof time === 'string' ? 1 : 2;
+  var period = getTime(periodType, time);
+
+  return axios.get(INDEX_CHARTDATA_URL + encodeURIComponent(symbol) + '&Periodicity=' + period + '&PeriodType=' + periodType);
+}
+
 function getCandleStickData(symbol, time, isIndex) {
   var periodType = typeof time === 'string' ? 1 : 2;
   var period = getTime(periodType, time);
@@ -293,6 +301,7 @@ var NSEAPI = {
   getAllStocksCSV: getAllStocksCSV,
   getIndexStocks: getIndexStocks,
   getIntraDayData: getIntraDayData,
+  getIndexChartData: getIndexChartData,
   getCandleStickData: getCandleStickData,
   searchStocks: searchStocks,
   searchEquityDerivatives: searchEquityDerivatives,
