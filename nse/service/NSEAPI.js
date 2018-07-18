@@ -224,7 +224,12 @@ function getStockFutureOptionsExpiryDates(symbol, isFutures) {
   return axios({
     method: 'GET',
     url: STOCK_OPTIONS_INFO_URL,
-    params: params
+    params: params,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      Host: 'www.nseindia.com',
+      'Referer': 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?illiquid=0&smeFlag=0&itpFlag=0&symbol=' + symbol,
+    }
   });
 }
 
@@ -240,7 +245,12 @@ function getStockOptionsPrices(symbol, expiryDate, isCall) {
   return axios({
     method: 'GET',
     url: STOCK_OPTIONS_INFO_URL,
-    params: params
+    params: params,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      Host: 'www.nseindia.com',
+      'Referer': 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?illiquid=0&smeFlag=0&itpFlag=0&symbol=' + symbol,
+    }
   });
 }
 
