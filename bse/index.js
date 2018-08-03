@@ -17,8 +17,23 @@ function getIndices() {
   return API.getIndices();
 }
 
-function getIndicesInfo(symbol) {
-  return API.getIndicesInfo(symbol);
+/**
+ * Get HeatMap data for index (stock list for a index)
+ * @param symbolKey {number} pass in the 'key' value for index (check getIndices method)
+ * @returns {*}
+ */
+function getIndexStocks(symbolKey) {
+  return API.getIndexStocks(symbolKey);
+}
+
+/**
+ * Get Full Day Chart data for a index
+ * @param key {number} = use the index 'key' value (check getIndices method, every index has a key value)
+ * @param time = {1|1M|3M|6M|12M}
+ * @returns {*}
+ */
+function getIndexChartData(key, time) {
+  return API.getIndexChartData(key, time);
 }
 
 /**
@@ -78,7 +93,8 @@ var bse = {
   getDailyStocks: getDailyStocks,
   getCompanyInfo: getCompanyInfo,
   getDayStocks: getDayStocks,
-  getIndicesInfo: getIndicesInfo
+  getIndexChartData: getIndexChartData,
+  getIndexStocks: getIndexStocks
 };
 
 module.exports = bse;

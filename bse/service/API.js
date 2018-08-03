@@ -1,8 +1,11 @@
 var axios = require('axios');
+var _ = require('lodash');
 
 var csvTojs = require('../utils/csvToJson');
 var csvToJson2Keys = require('../utils/csvToJson_2Keys');
+var companyNames = require('../constant/names');
 
+var INDEX_HEAT_MAP = require('../constant').INDEX_HEAT_MAP;
 var LOSERS_URL = require('../constant').LOSERS_URL;
 var INDICES_URL = require('../constant').INDICES_URL;
 var GAINERS_URL = require('../constant').GAINERS_URL;
@@ -75,8 +78,46 @@ function getIndices() {
   return axiosTransformer(INDICES_URL, INDICES_HEADERS);
 }
 
-function getIndicesInfo(symbol) {
-  return axiosTransformerAdvance(INDICES_INFO_URL);
+function getIndexStocks(symbolKey) {
+  return axios({
+    method: 'GET',
+    url: INDEX_HEAT_MAP,
+    params: {
+      indexcode: symbolKey,
+      random: Math.random()
+    },
+    transformResponse: [function (data) {
+      var actualData = data.split('$#$');
+      var stocks = _.map(actualData[1].split('|'), function (stock) {
+        var vals = stock.split(',');
+        if (vals.length === 13) {
+          return {
+            name: vals[0],
+            percChange: vals[1] || vals[12] || 0,
+            companyName: companyNames(vals[8]) || vals[2],
+            open: vals[3],
+            high: vals[4],
+            low: vals[5],
+            ltp: vals[6],
+            pointChange: vals[7],
+            symbol: vals[8],
+            wap: vals[9],
+            totalQuantityTraded: vals[10],
+            url: vals[11]
+          };
+        }
+        return null;
+      });
+      return stocks || [];
+    }]
+  });
+}
+
+function getIndexChartData(symbolKey, time) {
+  return axiosTransformerAdvance(
+    INDICES_INFO_URL + symbolKey + '&flag=' + time.toUpperCase() + '&random=' + Math.random(),
+    'date,previousClose,high,low,symbol,close,time',
+    'date,preOpen,value');
 }
 
 function getGainers() {
@@ -96,8 +137,10 @@ function getDailyStocks(securityCode) {
 }
 
 function getDayStocks(securityCode, flag) {
+  var flagtemp = flag.toUpperCase();
+  var flagSlug = (flagtemp === '1D' ? '' : '&Flag=' + flagtemp);
   return axiosTransformerAdvance(
-    HISTORY_STOCKS_URL + securityCode + '&Flag=' + flag.toUpperCase(),
+    HISTORY_STOCKS_URL + securityCode + (flagSlug),
     DAILY_STOCKS_CLOSING_HEADERS, DAILY_STOCKS_HEADERS);
 }
 
@@ -109,7 +152,8 @@ var API = {
   getDailyStocks: getDailyStocks,
   getCompanyInfo: getCompanyInfo,
   getDayStocks: getDayStocks,
-  getIndicesInfo: getIndicesInfo
+  getIndexChartData: getIndexChartData,
+  getIndexStocks: getIndexStocks
 };
 
 module.exports = API;

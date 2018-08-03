@@ -50,8 +50,8 @@ function getDailyStocks() {
     });
 }
 
-function getCompanyInfo(){
-  return API.getCompanyInfo(500325)
+function getCompanyInfo(symbol) {
+  return API.getCompanyInfo(symbol)
     .then(function (value) {
       console.log(value.data);
     })
@@ -60,8 +60,39 @@ function getCompanyInfo(){
     });
 }
 
-function getDayStocks(){
+function getDayStocks() {
   return API.getDayStocks(500325, '3M')
+    .then(function (value) {
+      console.log(value.data);
+    })
+    .catch(function (reason) {
+      console.log(reason)
+    });
+}
+
+function getIndexChartData(symbol, time) {
+  return API.getIndexChartData(symbol, time)
+    .then(function (value) {
+      console.log(value.data);
+    })
+    .catch(function (reason) {
+      console.log(reason)
+    });
+}
+
+
+function getDayStocks(symbol, time) {
+  return API.getDayStocks(532234, time)
+    .then(function (value) {
+      console.log(value.data);
+    })
+    .catch(function (reason) {
+      console.log(reason)
+    });
+}
+
+function getIndexStocks(symbol) {
+  return API.getIndexStocks(symbol)
     .then(function (value) {
       console.log(value.data);
     })
@@ -77,7 +108,4 @@ function getDayStocks(){
 
 // getIndices();
 
-getDayStocks();
-
-
-module.exports = bse;
+getIndexStocks(16);
