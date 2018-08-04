@@ -20,6 +20,7 @@
  - getDayStocks(securityCode, flag=[5D, 1M, 3M, 6M, 12M]) ## BSE
  - getIndexChartData(symbolKey, time=[1|1M|3M|6M|12M])
  - getIndexStocks(symbolKey)
+ - getIndexInfo(symbolKey)
  
  ***`symbolKey` is different from `symbol` or `securityCode`, this value is present in response of getIndices method in 'key' property
  

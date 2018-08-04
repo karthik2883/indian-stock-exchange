@@ -4,6 +4,7 @@ var _ = require('lodash');
 var csvTojs = require('../utils/csvToJson');
 var csvToJson2Keys = require('../utils/csvToJson_2Keys');
 var companyNames = require('../constant/names');
+var INDEX_INFO_URL = require('../constant').INDEX_INFO_URL;
 
 var INDEX_HEAT_MAP = require('../constant').INDEX_HEAT_MAP;
 var LOSERS_URL = require('../constant').LOSERS_URL;
@@ -16,7 +17,7 @@ var GAINERS_HEADERS = require('../constant').GAINERS_HEADERS;
 var INDICES_HEADERS = require('../constant').INDICES_HEADERS;
 var DAILY_STOCKS_URL = require('../constant').DAILY_STOCKS_URL;
 var TURNOVER_HEADERS = require('../constant').TURNOVER_HEADERS;
-var INDICES_INFO_URL = require('../constant').INDICES_INFO_URL;
+var INDICES_CHART_DATA_URL = require('../constant').INDICES_CHART_DATA_URL;
 var HISTORY_STOCKS_URL = require('../constant').HISTORY_STOCKS_URL;
 var DAILY_STOCKS_HEADERS = require('../constant').DAILY_STOCKS_HEADERS;
 var DAILY_STOCKS_CLOSING_HEADERS = require('../constant').DAILY_STOCKS_CLOSING_HEADERS;
@@ -113,9 +114,55 @@ function getIndexStocks(symbolKey) {
   });
 }
 
+
+function getIndexInfo(symbolKey) {
+  return axios({
+    method: 'GET',
+    url: INDEX_INFO_URL,
+    params: {
+      flag: 'INDEX',
+      indexcode: symbolKey,
+      random: Math.random()
+    },
+    transformResponse: [function (data) {
+      var actualData = data.split('$#$');
+      var values = actualData[1].split('@');
+      var statusType = 'Close';
+
+      if (values.length >= 11) {
+
+        switch (values[10]) {
+          case '2':
+            statusType = 'Close';
+            break;
+          case '1':
+            statusType = 'Pre-open';
+            break;
+          case '0':
+            statusType = 'Open';
+            break;
+        }
+        return {
+          symbol: values[1],
+          open: values[2],
+          high: values[3],
+          low: values[4],
+          ltp: values[5],
+          previousClose: values[6],
+          pointChange: values[7],
+          percChange: values[8],
+          timeVal: values[9]
+        }
+      } else {
+        return {};
+      }
+    }]
+  });
+}
+
 function getIndexChartData(symbolKey, time) {
   return axiosTransformerAdvance(
-    INDICES_INFO_URL + symbolKey + '&flag=' + time.toUpperCase() + '&random=' + Math.random(),
+    INDICES_CHART_DATA_URL + symbolKey + '&flag=' + time.toUpperCase() + '&random=' + Math.random(),
     'date,previousClose,high,low,symbol,close,time',
     'date,preOpen,value');
 }
@@ -153,7 +200,8 @@ var API = {
   getCompanyInfo: getCompanyInfo,
   getDayStocks: getDayStocks,
   getIndexChartData: getIndexChartData,
-  getIndexStocks: getIndexStocks
+  getIndexStocks: getIndexStocks,
+  getIndexInfo: getIndexInfo
 };
 
 module.exports = API;

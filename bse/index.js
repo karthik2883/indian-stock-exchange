@@ -18,6 +18,15 @@ function getIndices() {
 }
 
 /**
+ * Fetch Index info, eg., high, low, open etc…
+ * @param symbolKey {number} Index 'key' value
+ * @returns {*}
+ */
+function getIndexInfo(symbolKey) {
+  return API.getIndexInfo(symbolKey);
+}
+
+/**
  * Get HeatMap data for index (stock list for a index)
  * @param symbolKey {number} pass in the 'key' value for index (check getIndices method)
  * @returns {*}
@@ -94,7 +103,8 @@ var bse = {
   getCompanyInfo: getCompanyInfo,
   getDayStocks: getDayStocks,
   getIndexChartData: getIndexChartData,
-  getIndexStocks: getIndexStocks
+  getIndexStocks: getIndexStocks,
+  getIndexInfo: getIndexInfo
 };
 
 module.exports = bse;
