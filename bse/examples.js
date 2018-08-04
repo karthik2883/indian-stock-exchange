@@ -119,4 +119,5 @@ function getIndexInfo(symbol) {
 
 // getIndices();
 
-getIndexInfo(16);
+getIndexChartData(16, "1");
+// getIndexInfo(16);
