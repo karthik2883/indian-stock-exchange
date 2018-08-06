@@ -82,6 +82,15 @@ function getCompanyInfo(securityCode) {
   return API.getCompanyInfo(securityCode);
 }
 
+/**
+ * Returns stock buy and sell quantity
+ * @param securityCode
+ * @returns {*}
+ */
+function getStockMarketDepth(securityCode) {
+  return API.getStockMarketDepth(securityCode);
+}
+
 
 /**
  *  API returning Company Info
@@ -104,7 +113,8 @@ var bse = {
   getStockInfoAndDayChartData: getStockInfoAndDayChartData,
   getIndexChartData: getIndexChartData,
   getIndexStocks: getIndexStocks,
-  getIndexInfo: getIndexInfo
+  getIndexInfo: getIndexInfo,
+  getStockMarketDepth: getStockMarketDepth
 };
 
 module.exports = bse;

@@ -115,6 +115,8 @@ function getIndexStocks(symbolKey) {
 }
 
 
+// TODO https://www.bseindia.com/stock-share-price/SiteCache/EQHeaderData.aspx?text=532134
+
 function getIndexInfo(symbolKey) {
   return axios({
     method: 'GET',
@@ -191,6 +193,85 @@ function getStocksChartData(securityCode, flag) {
     DAILY_STOCKS_CLOSING_HEADERS, DAILY_STOCKS_HEADERS);
 }
 
+function getStockMarketDepth(securityCode) {
+  return axios({
+    method: 'GET',
+    url: 'https://www.bseindia.com/stock-share-price/SiteCache/MarketDepth.aspx',
+    params: {
+      Type: 'EQ',
+      text: securityCode
+    },
+    transformResponse: function (data) {
+      try {
+        data = data.replaceAll(' type=\'hidden\'', '');
+        var regex = /(?:id='(.*?)'(?:.*?)value='(.*?)')/gim;
+        var newData = _.map(data.match(regex), function (a) {
+
+          var key = a.match('id=\'.*?\'')[0].replaceAll(/(id=)|(hd)|(\')/, '');
+          var newKey = key;
+
+          if (key === 'Date') {
+            //pass
+          }
+          else if (key === '6a') {
+            newKey = 'totalBuyQuantity';
+          }
+          else if (key === '6b') {
+            newKey = 'totalSellQuantity';
+          }
+          else if (_.includes(key, 'a')) {
+            newKey = 'buyQuantity' + newKey.replace('a', '');
+          }
+          else if (_.includes(key, 'b')) {
+            newKey = 'buyPrice' + newKey.replace('b', '');
+          }
+          else if (_.includes(key, 'c')) {
+            newKey = 'sellPrice' + newKey.replace('c', '');
+          }
+          else if (_.includes(key, 'd')) {
+            newKey = 'sellQuantity' + newKey.replace('d', '');
+          }
+          var value = a.match('value=\'.*?\'')[0].replaceAll(/(value=)|(\')/, '');
+          var o = {};
+          o[newKey] = value || '-';
+          return o;
+        });
+
+        return newData.reduce(function (obj, item) {
+          var key = _.keys(item)[0];
+          obj[key] = item[key];
+          return obj;
+        }, {});
+      } catch (e) {
+        return {
+          buyQuantity1: '-',
+          buyPrice1: '-',
+          sellPrice1: '-',
+          sellQuantity1: '-',
+          buyQuantity2: '-',
+          buyPrice2: '-',
+          sellPrice2: '-',
+          sellQuantity2: '-',
+          buyQuantity3: '-',
+          buyPrice3: '-',
+          sellPrice3: '-',
+          sellQuantity3: '-',
+          buyQuantity4: '-',
+          buyPrice4: '-',
+          sellPrice4: '-',
+          sellQuantity4: '-',
+          buyQuantity5: '-',
+          buyPrice5: '-',
+          sellPrice5: '-',
+          sellQuantity5: '-',
+          totalBuyQuantity: '-',
+          totalSellQuantity: '-'
+        }
+      }
+    }
+  })
+}
+
 var API = {
   getTopTurnOvers: getTopTurnOvers,
   getIndices: getIndices,
@@ -201,7 +282,8 @@ var API = {
   getStocksChartData: getStocksChartData,
   getIndexChartData: getIndexChartData,
   getIndexStocks: getIndexStocks,
-  getIndexInfo: getIndexInfo
+  getIndexInfo: getIndexInfo,
+  getStockMarketDepth: getStockMarketDepth
 };
 
 module.exports = API;
