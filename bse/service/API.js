@@ -89,9 +89,9 @@ function getIndexStocks(symbolKey) {
     },
     transformResponse: [function (data) {
       var actualData = data.split('$#$');
-      var stocks = _.map(actualData[1].split('|'), function (stock) {
+      var stocks = _.compact(_.map(actualData[1].split('|'), function (stock) {
         var vals = stock.split(',');
-        if (vals.length === 13) {
+        if (vals.length === 13 && vals[0] !== 'aaaa') {
           return {
             name: vals[0],
             percChange: vals[1] || vals[12] || 0,
@@ -108,7 +108,7 @@ function getIndexStocks(symbolKey) {
           };
         }
         return null;
-      });
+      }));
       return stocks || [];
     }]
   });
