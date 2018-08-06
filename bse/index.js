@@ -68,8 +68,8 @@ function getLosers() {
  * @param securityCode {number} BSE, company securityCode value
  * @returns {*}
  */
-function getDailyStocks(securityCode) {
-  return API.getDailyStocks(securityCode);
+function getStockInfoAndDayChartData(securityCode) {
+  return API.getStockInfoAndDayChartData(securityCode);
 }
 
 
@@ -89,8 +89,8 @@ function getCompanyInfo(securityCode) {
  * @param flag {enum}, oneOf [1D,5D,1M,3M,6M,12M]
  * @returns {*}
  */
-function getDayStocks(securityCode, flag) {
-  return API.getDayStocks(securityCode, flag);
+function getStocksChartData(securityCode, flag) {
+  return API.getStocksChartData(securityCode, flag);
 }
 
 
@@ -99,9 +99,9 @@ var bse = {
   getIndices: getIndices,
   getGainers: getGainers,
   getLosers: getLosers,
-  getDailyStocks: getDailyStocks,
+  getStocksChartData: getStocksChartData,
   getCompanyInfo: getCompanyInfo,
-  getDayStocks: getDayStocks,
+  getStockInfoAndDayChartData: getStockInfoAndDayChartData,
   getIndexChartData: getIndexChartData,
   getIndexStocks: getIndexStocks,
   getIndexInfo: getIndexInfo

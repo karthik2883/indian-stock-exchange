@@ -179,11 +179,11 @@ function getCompanyInfo(securityCode) {
   return axiosTableTransformer(COMPANY_HEADER + securityCode);
 }
 
-function getDailyStocks(securityCode) {
+function getStockInfoAndDayChartData(securityCode) {
   return axiosTransformerAdvance(DAILY_STOCKS_URL + securityCode, DAILY_STOCKS_CLOSING_HEADERS, DAILY_STOCKS_HEADERS);
 }
 
-function getDayStocks(securityCode, flag) {
+function getStocksChartData(securityCode, flag) {
   var flagtemp = flag.toUpperCase();
   var flagSlug = (flagtemp === '1D' ? '' : '&Flag=' + flagtemp);
   return axiosTransformerAdvance(
@@ -196,9 +196,9 @@ var API = {
   getIndices: getIndices,
   getGainers: getGainers,
   getLosers: getLosers,
-  getDailyStocks: getDailyStocks,
+  getStockInfoAndDayChartData: getStockInfoAndDayChartData,
   getCompanyInfo: getCompanyInfo,
-  getDayStocks: getDayStocks,
+  getStocksChartData: getStocksChartData,
   getIndexChartData: getIndexChartData,
   getIndexStocks: getIndexStocks,
   getIndexInfo: getIndexInfo

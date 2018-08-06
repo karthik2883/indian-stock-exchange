@@ -15,9 +15,9 @@
  - getIndices
  - getGainers
  - getLosers
- - getDailyStocks(securityCode)
+ - getStockInfoAndDayChartData(securityCode)
  - getCompanyInfo(securityCode)
- - getDayStocks(securityCode, flag=[5D, 1M, 3M, 6M, 12M]) ## BSE
+ - getStocksChartData(securityCode, flag=[5D, 1M, 3M, 6M, 12M]) ## BSE
  - getIndexChartData(symbolKey, time=[1|1M|3M|6M|12M])
  - getIndexStocks(symbolKey)
  - getIndexInfo(symbolKey)
