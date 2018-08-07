@@ -4,8 +4,8 @@ var _ = require('lodash');
 var csvTojs = require('../utils/csvToJson');
 var csvToJson2Keys = require('../utils/csvToJson_2Keys');
 var companyNames = require('../constant/names');
-var INDEX_INFO_URL = require('../constant').INDEX_INFO_URL;
 
+var INDEX_INFO_URL = require('../constant').INDEX_INFO_URL;
 var INDEX_HEAT_MAP = require('../constant').INDEX_HEAT_MAP;
 var LOSERS_URL = require('../constant').LOSERS_URL;
 var INDICES_URL = require('../constant').INDICES_URL;
@@ -26,6 +26,8 @@ String.prototype.replaceAll = function (search, replacement) {
   var target = this;
   return target.replace(new RegExp(search, 'g'), replacement);
 };
+
+//TODO https://www.bseindia.com/stock-share-price/SiteCache/Stock_Trading.aspx?text=500520&type=EQ
 
 function axiosTransformer(url, headers) {
   return axios.get(url, {
@@ -199,7 +201,8 @@ function getStockMarketDepth(securityCode) {
     url: 'https://www.bseindia.com/stock-share-price/SiteCache/MarketDepth.aspx',
     params: {
       Type: 'EQ',
-      text: securityCode
+      text: securityCode,
+      random: Math.random(),
     },
     transformResponse: function (data) {
       try {
