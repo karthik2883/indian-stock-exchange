@@ -202,43 +202,50 @@ function getStockMarketDepth(securityCode) {
     params: {
       Type: 'EQ',
       text: securityCode,
-      random: Math.random(),
+      random: Math.random()
     },
-    transformResponse: function (data) {
+    transformResponse: function (responseData) {
       try {
-        data = data.replaceAll(' type=\'hidden\'', '');
-        var regex = /(?:id='(.*?)'(?:.*?)value='(.*?)')/gim;
-        var newData = _.map(data.match(regex), function (a) {
+        var data = _.replace(responseData, / type='hidden'/g, '');
+        var regex = /(?:id='(.*?)'(?:.*?)value='(.*?)')/g;
+        var newData = _.map(
+          data.match(regex),
+          function (a) {
+            var key = _.replace(
+              a.match('id=\'.*?\'')[0],
+              /(id=)|(hd)|(')/g,
+              ''
+            );
 
-          var key = a.match('id=\'.*?\'')[0].replaceAll(/(id=)|(hd)|(\')/, '');
-          var newKey = key;
+            var newKey = key;
 
-          if (key === 'Date') {
-            //pass
+            if (key === 'Date') {
+              // pass
+            } else if (key === '6a') {
+              newKey = 'totalBuyQuantity';
+            } else if (key === '6b') {
+              newKey = 'totalSellQuantity';
+            } else if (_.includes(key, 'a')) {
+              newKey = 'buyQuantity' + newKey.replace('a', '');
+            } else if (_.includes(key, 'b')) {
+              newKey = 'buyPrice' + newKey.replace('b', '');
+            } else if (_.includes(key, 'c')) {
+              newKey = 'sellPrice' + newKey.replace('c', '');
+            } else if (_.includes(key, 'd')) {
+              newKey = 'sellQuantity' + newKey.replace('d', '');
+            }
+
+            var value =
+              _.replace(
+                a.match('value=\'.*?\'')[0],
+                /(value=)|(')/g, ''
+              );
+
+            var o = {};
+            o[newKey] = value || '-';
+            return o;
           }
-          else if (key === '6a') {
-            newKey = 'totalBuyQuantity';
-          }
-          else if (key === '6b') {
-            newKey = 'totalSellQuantity';
-          }
-          else if (_.includes(key, 'a')) {
-            newKey = 'buyQuantity' + newKey.replace('a', '');
-          }
-          else if (_.includes(key, 'b')) {
-            newKey = 'buyPrice' + newKey.replace('b', '');
-          }
-          else if (_.includes(key, 'c')) {
-            newKey = 'sellPrice' + newKey.replace('c', '');
-          }
-          else if (_.includes(key, 'd')) {
-            newKey = 'sellQuantity' + newKey.replace('d', '');
-          }
-          var value = a.match('value=\'.*?\'')[0].replaceAll(/(value=)|(\')/, '');
-          var o = {};
-          o[newKey] = value || '-';
-          return o;
-        });
+        );
 
         return newData.reduce(function (obj, item) {
           var key = _.keys(item)[0];
@@ -246,6 +253,7 @@ function getStockMarketDepth(securityCode) {
           return obj;
         }, {});
       } catch (e) {
+        console.log('error', e);
         return {
           buyQuantity1: '-',
           buyPrice1: '-',
@@ -269,10 +277,10 @@ function getStockMarketDepth(securityCode) {
           sellQuantity5: '-',
           totalBuyQuantity: '-',
           totalSellQuantity: '-'
-        }
+        };
       }
     }
-  })
+  });
 }
 
 var API = {
