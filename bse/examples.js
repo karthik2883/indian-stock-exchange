@@ -1,4 +1,4 @@
-var API = require('./service/API');
+var API = require('./index');
 
 function getTopTurnOvers() {
   return API.getTopTurnOvers()
@@ -40,28 +40,18 @@ function getLosers() {
     });
 }
 
-function getDailyStocks() {
-  return API.getDailyStocks(500325)
-    .then(function (value) {
-      console.log(value.data);
-    })
-    .catch(function (reason) {
-      console.log(reason)
-    });
-}
-
 function getCompanyInfo(symbol) {
   return API.getCompanyInfo(symbol)
     .then(function (value) {
-      console.log(value.data);
+      console.log(value);
     })
     .catch(function (reason) {
       console.log(reason)
     });
 }
 
-function getDayStocks() {
-  return API.getDayStocks(500325, '3M')
+function getStocksChartData() {
+  return API.getStocksChartData(500325, '3M')
     .then(function (value) {
       console.log(value.data);
     })
@@ -81,8 +71,8 @@ function getIndexChartData(symbol, time) {
 }
 
 
-function getDayStocks(symbol, time) {
-  return API.getDayStocks(532234, time)
+function getStockInfoAndDayChartData(symbol) {
+  return API.getStockInfoAndDayChartData(symbol)
     .then(function (value) {
       console.log(value.data);
     })
@@ -129,5 +119,6 @@ function getStockMarketDepth(symbol) {
 
 // getIndices();
 
-getStockMarketDepth(532215);
+getCompanyInfo(500112);
+// getStockInfoAndDayChartData(500112);
 // getIndexInfo(16);

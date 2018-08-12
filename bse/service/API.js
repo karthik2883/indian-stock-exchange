@@ -4,22 +4,25 @@ var _ = require('lodash');
 var csvTojs = require('../utils/csvToJson');
 var csvToJson2Keys = require('../utils/csvToJson_2Keys');
 var companyNames = require('../constant/names');
+var emptyData = require('../constant/emptyData');
 
+var STOCK_HIGH_LOW_URL = require('../constant').STOCK_HIGH_LOW_URL;
 var INDEX_INFO_URL = require('../constant').INDEX_INFO_URL;
-var INDEX_HEAT_MAP = require('../constant').INDEX_HEAT_MAP;
+var INDEX_HEAT_MAP = require('../constant').INDEX_HEAT_MAP_URL;
 var LOSERS_URL = require('../constant').LOSERS_URL;
 var INDICES_URL = require('../constant').INDICES_URL;
 var GAINERS_URL = require('../constant').GAINERS_URL;
 var TURNOVER_URL = require('../constant').TURNOVER_URL;
-var COMPANY_HEADER = require('../constant').COMPANY_HEADER;
+var COMPANY_HEADER = require('../constant').COMPANY_HEADER_URL;
 var LOSERS_HEADERS = require('../constant').LOSERS_HEADERS;
 var GAINERS_HEADERS = require('../constant').GAINERS_HEADERS;
 var INDICES_HEADERS = require('../constant').INDICES_HEADERS;
 var DAILY_STOCKS_URL = require('../constant').DAILY_STOCKS_URL;
 var TURNOVER_HEADERS = require('../constant').TURNOVER_HEADERS;
-var INDICES_CHART_DATA_URL = require('../constant').INDICES_CHART_DATA_URL;
 var HISTORY_STOCKS_URL = require('../constant').HISTORY_STOCKS_URL;
 var DAILY_STOCKS_HEADERS = require('../constant').DAILY_STOCKS_HEADERS;
+var INDICES_CHART_DATA_URL = require('../constant').INDICES_CHART_DATA_URL;
+var STOCK_POINT_PERCENT_URL = require('../constant').STOCK_POINT_PERCENT_URL;
 var DAILY_STOCKS_CLOSING_HEADERS = require('../constant').DAILY_STOCKS_CLOSING_HEADERS;
 
 String.prototype.replaceAll = function (search, replacement) {
@@ -43,7 +46,7 @@ function axiosTransformerAdvance(url, closeHeaders, normalHeaders) {
       var getClosing = data.split('#@#');
       var closingInfo = [];
       var normalData = [];
-      if (getClosing.length > 1) { // day ended we have closing data
+      if (getClosing.length > 1) {
         closingInfo = csvTojs(getClosing[0], closeHeaders);
         normalData = csvTojs(getClosing[1], normalHeaders)
       } else {
@@ -116,9 +119,6 @@ function getIndexStocks(symbolKey) {
   });
 }
 
-
-// TODO https://www.bseindia.com/stock-share-price/SiteCache/EQHeaderData.aspx?text=532134
-
 function getIndexInfo(symbolKey) {
   return axios({
     method: 'GET',
@@ -180,7 +180,97 @@ function getLosers() {
 }
 
 function getCompanyInfo(securityCode) {
-  return axiosTableTransformer(COMPANY_HEADER + securityCode);
+
+  var stockInfo = axios({
+    url: STOCK_HIGH_LOW_URL,
+    method: 'GET',
+    params: {
+      text: securityCode
+    },
+    headers: {
+      Referer: 'https://www.bseindia.com/'
+    },
+    transformResponse: function (responseData) {
+      try {
+        var initialSplit = responseData.split('##');
+        if (initialSplit[0] === 'BSE') {
+
+          var dataSplit = initialSplit[1].split('@');
+
+          var arrB = dataSplit[0].split('#');
+          var timeValue = arrB[1];
+
+          var highLowCSV = dataSplit[3].split('#');
+          var highLowValuesArray = highLowCSV[1].split(',');
+
+          var previousClose = highLowValuesArray[0];
+          var open = highLowValuesArray[1];
+          var high = highLowValuesArray[2];
+          var low = highLowValuesArray[3];
+          var ltp = highLowValuesArray[4];
+          var latestValue = highLowValuesArray[4];
+
+          if (low === '-') {
+            low = '0';
+          }
+          if (high === '-') {
+            high = '0';
+          }
+          return {
+            timeValue: _.trim(timeValue.replace(/(As|on)/g, '')) || '',
+            previousClose: previousClose || 0,
+            open: open || 0,
+            high: high || 0,
+            low: low || 0,
+            ltp: ltp || 0,
+            latestValue: latestValue || 0
+          }
+        }
+      } catch (e) {
+        return emptyData.emptyCompanyInfo
+      }
+    }
+  });
+
+  var stockPointPercentData = axios({
+    url: STOCK_POINT_PERCENT_URL,
+    method: 'GET',
+    params: {
+      scripcode: securityCode,
+      DebtFlag: 'C'
+    },
+    headers: {
+      Referer: 'https://www.bseindia.com/'
+    },
+    transformResponse: function (responseData) {
+      try {
+        var regex = new RegExp('(?:<td(?:.*?)>(.*?)<\/td>)', 'g');
+        var data = responseData
+          .replace(regex, '$1,') // replace html innerContent with just the text
+          .replace(/((<([^>]+)>)|&nbsp;|\(|\)|%)/ig, ''); // remove html tags and extra garbage chars
+
+        var values = _.compact(data.split(','));
+
+        return {
+          latestValue: values[0] || 0,
+          pointChange: values[1] || 0,
+          percChange: values[2] || 0
+        };
+
+      } catch (e) {
+        console.log(e);
+        return {
+          latestValue: 0,
+          pointChange: 0,
+          percChange: 0
+        }
+      }
+    }
+  });
+
+  var companyHeader = axiosTableTransformer(COMPANY_HEADER + securityCode);
+
+  return Promise.all([stockInfo, companyHeader, stockPointPercentData]);
 }
 
 function getStockInfoAndDayChartData(securityCode) {
@@ -254,30 +344,7 @@ function getStockMarketDepth(securityCode) {
         }, {});
       } catch (e) {
         console.log('error', e);
-        return {
-          buyQuantity1: '-',
-          buyPrice1: '-',
-          sellPrice1: '-',
-          sellQuantity1: '-',
-          buyQuantity2: '-',
-          buyPrice2: '-',
-          sellPrice2: '-',
-          sellQuantity2: '-',
-          buyQuantity3: '-',
-          buyPrice3: '-',
-          sellPrice3: '-',
-          sellQuantity3: '-',
-          buyQuantity4: '-',
-          buyPrice4: '-',
-          sellPrice4: '-',
-          sellQuantity4: '-',
-          buyQuantity5: '-',
-          buyPrice5: '-',
-          sellPrice5: '-',
-          sellQuantity5: '-',
-          totalBuyQuantity: '-',
-          totalSellQuantity: '-'
-        };
+        return emptyData.bidTableData;
       }
     }
   });

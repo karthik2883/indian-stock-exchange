@@ -1,4 +1,5 @@
 var API = require('./service/API');
+var emptyData = require('./constant/emptyData');
 
 /**
  * API returning top turnovers of day
@@ -76,10 +77,21 @@ function getStockInfoAndDayChartData(securityCode) {
 /**
  *  API returning Company Info
  * @param securityCode {number} BSE, company securityCode value
- * @returns {*}
+ * @returns {Promise}
  */
 function getCompanyInfo(securityCode) {
-  return API.getCompanyInfo(securityCode);
+  return API.getCompanyInfo(securityCode)
+    .then(function (response) {
+      return new Promise(function (resolve, reject) {
+        if (response.length === 3) {
+          resolve(Object.assign(emptyData.emptyCompanyInfo, response[0].data, response[1].data, response[2].data))
+        } else {
+          reject(emptyData.emptyCompanyInfo);
+        }
+      });
+    }).catch(function (reason) {
+      return new Promise.reject(reason);
+    });
 }
 
 /**
@@ -95,7 +107,7 @@ function getStockMarketDepth(securityCode) {
 /**
  *  API returning Company Info
  * @param securityCode {number} BSE, company securityCode value
- * @param flag {enum}, oneOf [1D,5D,1M,3M,6M,12M]
+ * @param flag {string}, oneOf [1D,5D,1M,3M,6M,12M]
  * @returns {*}
  */
 function getStocksChartData(securityCode, flag) {
