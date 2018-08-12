@@ -27,6 +27,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>var API = require('./service/API');
+var emptyData = require('./constant/emptyData');
 
 /**
  * API returning top turnovers of day
@@ -104,10 +105,21 @@ function getStockInfoAndDayChartData(securityCode) {
 /**
  *  API returning Company Info
  * @param securityCode {number} BSE, company securityCode value
- * @returns {*}
+ * @returns {Promise}
  */
 function getCompanyInfo(securityCode) {
-  return API.getCompanyInfo(securityCode);
+  return API.getCompanyInfo(securityCode)
+    .then(function (response) {
+      return new Promise(function (resolve, reject) {
+        if (response.length === 3) {
+          resolve(Object.assign(emptyData.emptyCompanyInfo, response[0].data, response[1].data, response[2].data))
+        } else {
+          reject(emptyData.emptyCompanyInfo);
+        }
+      });
+    }).catch(function (reason) {
+      return new Promise.reject(reason);
+    });
 }
 
 /**
@@ -123,7 +135,7 @@ function getStockMarketDepth(securityCode) {
 /**
  *  API returning Company Info
  * @param securityCode {number} BSE, company securityCode value
- * @param flag {enum}, oneOf [1D,5D,1M,3M,6M,12M]
+ * @param flag {string}, oneOf [1D,5D,1M,3M,6M,12M]
  * @returns {*}
  */
 function getStocksChartData(securityCode, flag) {
@@ -155,13 +167,13 @@ module.exports = bse;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getAllStocksCSV">getAllStocksCSV</a></li><li><a href="global.html#getCandleStickData">getCandleStickData</a></li><li><a href="global.html#getCompanyInfo">getCompanyInfo</a></li><li><a href="global.html#getGainers">getGainers</a></li><li><a href="global.html#getInclineDecline">getInclineDecline</a></li><li><a href="global.html#getIndexChartData">getIndexChartData</a></li><li><a href="global.html#getIndexInfo">getIndexInfo</a></li><li><a href="global.html#getIndexStocks">getIndexStocks</a></li><li><a href="global.html#getIndices">getIndices</a></li><li><a href="global.html#getIndices2">getIndices2</a></li><li><a href="global.html#getIntraDayDataXML">getIntraDayDataXML</a></li><li><a href="global.html#getLosers">getLosers</a></li><li><a href="global.html#getMarketStatus">getMarketStatus</a></li><li><a href="global.html#getQuoteInfo">getQuoteInfo</a></li><li><a href="global.html#getSectorsList">getSectorsList</a></li><li><a href="global.html#getStockFutureOptionsExpiryDates">getStockFutureOptionsExpiryDates</a></li><li><a href="global.html#getStockFuturesData">getStockFuturesData</a></li><li><a href="global.html#getStockInfoAndDayChartData">getStockInfoAndDayChartData</a></li><li><a href="global.html#getStockMarketDepth">getStockMarketDepth</a></li><li><a href="global.html#getStockOptionsData">getStockOptionsData</a></li><li><a href="global.html#getStockOptionsPrices">getStockOptionsPrices</a></li><li><a href="global.html#getStocksChartData">getStocksChartData</a></li><li><a href="global.html#getTopTurnOvers">getTopTurnOvers</a></li><li><a href="global.html#searchEquityDerivatives">searchEquityDerivatives</a></li><li><a href="global.html#searchStocks">searchStocks</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getAllStocksCSV">getAllStocksCSV</a></li><li><a href="global.html#getCandleStickData">getCandleStickData</a></li><li><a href="global.html#getCompanyInfo">getCompanyInfo</a></li><li><a href="global.html#getGainers">getGainers</a></li><li><a href="global.html#getInclineDecline">getInclineDecline</a></li><li><a href="global.html#getIndexChartData">getIndexChartData</a></li><li><a href="global.html#getIndexInfo">getIndexInfo</a></li><li><a href="global.html#getIndexStocks">getIndexStocks</a></li><li><a href="global.html#getIndices">getIndices</a></li><li><a href="global.html#getIndices2">getIndices2</a></li><li><a href="global.html#getIntraDayDataXML">getIntraDayDataXML</a></li><li><a href="global.html#getLosers">getLosers</a></li><li><a href="global.html#getMarketStatus">getMarketStatus</a></li><li><a href="global.html#getQuoteInfo">getQuoteInfo</a></li><li><a href="global.html#getSectorsList">getSectorsList</a></li><li><a href="global.html#getStockFutureOptionsExpiryDates">getStockFutureOptionsExpiryDates</a></li><li><a href="global.html#getStockFuturesData">getStockFuturesData</a></li><li><a href="global.html#getStockInfoAndDayChartData">getStockInfoAndDayChartData</a></li><li><a href="global.html#getStockMarketDepth">getStockMarketDepth</a></li><li><a href="global.html#getStockOptionsData">getStockOptionsData</a></li><li><a href="global.html#getStockOptionsPrices">getStockOptionsPrices</a></li><li><a href="global.html#getStocksChartData">getStocksChartData</a></li><li><a href="global.html#getTopTurnOvers">getTopTurnOvers</a></li><li><a href="global.html#searchEquityDerivatives">searchEquityDerivatives</a></li><li><a href="global.html#searchStocks">searchStocks</a></li><li><a href="global.html#TURNOVER_HEADERS">TURNOVER_HEADERS</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Aug 07 2018 11:34:18 GMT+0530 (IST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Aug 12 2018 11:51:32 GMT+0530 (IST)
 </footer>
 
 <script> prettyPrint(); </script>
