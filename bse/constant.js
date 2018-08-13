@@ -11,7 +11,8 @@ exports.INDICES_CHART_DATA_URL = 'https://www.bseindia.com/BSEGraph/Graphs/GetSe
 exports.INDEX_INFO_URL = 'https://www.bseindia.com/SensexView/SensexViewbackPage.aspx';
 exports.STOCK_HIGH_LOW_URL = 'https://www.bseindia.com/stock-share-price/SiteCache/EQHeaderData.aspx';
 exports.STOCK_POINT_PERCENT_URL = 'https://www.bseindia.com/stock-share-price/SiteCache/IrBackupStockReach.aspx';
-
+exports.STOCK_CANDLESTICK_DAILY_URL = 'http://charting.bseindia.com/charting/RestDataProvider.svc/getDatI';
+exports.STOCK_CANDLESTICK_URL = 'http://charting.bseindia.com/charting/RestDataProvider.svc/getDat';
 /**
  * Constant CSV Header Row to parse response values
  */

@@ -5,6 +5,8 @@ var csvTojs = require('../utils/csvToJson');
 var csvToJson2Keys = require('../utils/csvToJson_2Keys');
 var companyNames = require('../constant/names');
 var emptyData = require('../constant/emptyData');
+var STOCK_CANDLESTICK_DAILY_URL = require('../constant').STOCK_CANDLESTICK_DAILY_URL;
+var STOCK_CANDLESTICK_URL = require('../constant').STOCK_CANDLESTICK_URL;
 
 var STOCK_HIGH_LOW_URL = require('../constant').STOCK_HIGH_LOW_URL;
 var INDEX_INFO_URL = require('../constant').INDEX_INFO_URL;
@@ -350,6 +352,61 @@ function getStockMarketDepth(securityCode) {
   });
 }
 
+function getStockCandleStickData(securityCode, time) {
+  var url = STOCK_CANDLESTICK_URL;
+  if (time === '1D') {
+    url = STOCK_CANDLESTICK_DAILY_URL;
+  }
+  return axios({
+    method: 'POST',
+    url: url,
+    params: {
+      exch: 'N',
+      scode: securityCode,
+      type: 'b',
+      mode: 'bseL',
+      fromdate: '01-01-1991-01:01:00-AM'
+    },
+    transformResponse: function (responseData) {
+      try {
+        var key = time === '1D' ? 'getDatIResult' : 'getDatResult';
+        var jsonString = JSON.parse(responseData)[key];
+        var parsedJSON = JSON.parse(jsonString).DataInputValues;
+        var dataObj = parsedJSON[0];
+        var openArray = dataObj.OpenData[0].Open.split(',');
+        var lowArray = dataObj.LowData[0].Low.split(',');
+        var highArray = dataObj.HighData[0].High.split(',');
+        var closeArray = dataObj.CloseData[0].Close.split(',');
+        var dateArray = dataObj.DateData[0].Date.split(',');
+        var volumeArray = dataObj.VolumeData[0].Volume.split(',');
+
+        return _.map(dateArray, function (date, indx) {
+
+          var validDate = date.replace(/(\d{2})\/(\d{2})\/(\d{4}) (.*?)/, "$2/$1/$3 $4");
+          return {
+            date: new Date(validDate).toLocaleString(),
+            open: openArray[indx] || 0,
+            close: closeArray[indx] || 0,
+            high: highArray[indx] || 0,
+            low: lowArray[indx] || 0,
+            volume: volumeArray[indx] || 0
+          }
+        })
+      } catch (e) {
+        var today = new Date();
+        return [{
+          open: 0,
+          close: 0,
+          high: 0,
+          low: 0,
+          volume: 0,
+          date: today.toLocaleString()
+        }]
+      }
+    }
+  });
+}
+
 var API = {
   getTopTurnOvers: getTopTurnOvers,
   getIndices: getIndices,
@@ -361,7 +418,8 @@ var API = {
   getIndexChartData: getIndexChartData,
   getIndexStocks: getIndexStocks,
   getIndexInfo: getIndexInfo,
-  getStockMarketDepth: getStockMarketDepth
+  getStockMarketDepth: getStockMarketDepth,
+  getStockCandleStickData: getStockCandleStickData
 };
 
 module.exports = API;

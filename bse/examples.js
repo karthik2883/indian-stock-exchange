@@ -112,6 +112,16 @@ function getStockMarketDepth(symbol) {
     });
 }
 
+function getStockCandleStickData(symbol, time) {
+  return API.getStockCandleStickData(symbol, time)
+    .then(function (value) {
+      console.log(value.data);
+    })
+    .catch(function (reason) {
+      console.log(reason)
+    });
+}
+
 //view-source:https://www.bseindia.com/stock-share-price/SiteCache/TabResult.aspx?text=500325&type=results
 //document.body.innerText.replace(/\<\/td>/g,',').replace(/<\/tr>/g,'#').replace(/<(?:.|\n)*?>/gm, '');
 
@@ -119,6 +129,6 @@ function getStockMarketDepth(symbol) {
 
 // getIndices();
 
-getCompanyInfo(500112);
+getStockCandleStickData(500112, '1Y');
 // getStockInfoAndDayChartData(500112);
 // getIndexInfo(16);

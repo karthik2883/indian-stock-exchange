@@ -115,6 +115,16 @@ function getStocksChartData(securityCode, flag) {
 }
 
 
+/**
+ *
+ * @param securityCode
+ * @param time {string} allowed values (1D|1Y)
+ * @returns {*}
+ */
+function getStockCandleStickData(securityCode, time) {
+  return API.getStockCandleStickData(securityCode, time);
+}
+
 var bse = {
   getTopTurnOvers: getTopTurnOvers,
   getIndices: getIndices,
@@ -126,7 +136,8 @@ var bse = {
   getIndexChartData: getIndexChartData,
   getIndexStocks: getIndexStocks,
   getIndexInfo: getIndexInfo,
-  getStockMarketDepth: getStockMarketDepth
+  getStockMarketDepth: getStockMarketDepth,
+  getStockCandleStickData: getStockCandleStickData
 };
 
 module.exports = bse;

@@ -22,6 +22,7 @@
  - getIndexChartData(symbolKey, time=[1|1M|3M|6M|12M])
  - getIndexStocks(symbolKey)
  - getIndexInfo(symbolKey)
+ - getStockCandleStickData(securityCode, flag=[1D|1Y]) **(when using '1Y' as time, will return all data for the stock, you can filter out data accordingly for week wise or month wise data)**
  
  ***`symbolKey` is different from `symbol` or `securityCode`, this value is present in response of getIndices method in 'key' property
  
