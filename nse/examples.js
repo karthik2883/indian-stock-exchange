@@ -136,15 +136,44 @@ function searchIndex(symbol) {
 }
 
 
-function getStockFuturesData(symbol) {
-  return API.getStockFuturesData(symbol,'26JUL2018')
+function getStockFuturesData(symbol, date) {
+  return API.getStockFuturesData(symbol, date)
     .then(function (value) {
       var data = value.data;
       console.log(data);
     });
 }
 
-getStockFuturesData('INFY');
+function getFuturesData(symbol) {
+  return API.getStockFutureOptionsExpiryDates(symbol, true)
+    .then(function (response) {
+      var data = response.data;
+      var expiries = data['expiries'];
+      if (expiries && expiries.length > 0) {
+        return Promise.all(expiries.map(function (date) {
+            return API.getStockFuturesData(symbol, date);
+          })
+        );
+      } else {
+        return Promise.reject('No expiry dates present');
+      }
+    });
+}
+
+getFuturesData('INFY').then(function (value) {
+  var res = {};
+  value.map(function (v) {
+    var d = {};
+    try {
+      d[v.config.params.expiry] = v.data.data[0] || {};
+    } catch (e) {
+      d[v.config.params.expiry] = {};
+    }
+    res = Object.assign(res, d);
+  });
+  console.log(res);
+  return res;
+});
 
 
 var nse = {

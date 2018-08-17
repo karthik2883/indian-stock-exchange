@@ -61,8 +61,9 @@
  
  - getStockOptionsData(symbol, expiryDate, isCall, strikePrice) strikePrice value from above api result only
  
- - getStockFuturesData(symbol, expiryDate) expiryDate from api method only
+ - getFuturesData(symbol, expiryDate) expiryDate from api method only
 
+ - getFuturesData(symbol) => wrapper around `getFuturesData` and `getStockFutureOptionsExpiryDates` and return all-together.
 
 ## Slug List
  ```javascript
