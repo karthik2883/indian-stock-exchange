@@ -1,4 +1,5 @@
 var NSEAPI = require('./service/NSEAPI');
+var merge = require('lodash/merge');
 
 
 /**
@@ -231,6 +232,48 @@ function getFuturesData(symbol) {
 }
 
 
+function getOptionsData(symbol) {
+  return NSEAPI.getStockFutureOptionsExpiryDates(symbol, false)
+    .then(function (response) {
+      var data = response.data;
+      var expiries = data['expiries'];
+      if (expiries && expiries.length > 0) {
+        return Promise.all(expiries.map(function (date) {
+            return NSEAPI.getStockOptionsPrices(symbol, date, true);
+          }).concat(expiries.map(function (date) {
+            return NSEAPI.getStockOptionsPrices(symbol, date, false);
+          }))
+        );
+      } else {
+        return Promise.reject('No expiry dates present');
+      }
+    })
+    .then(function (value) {
+      var res = {};
+      value.map(function (v) {
+        var d = {};
+        try {
+          var type = v.config.params.o === 'CE' ? 'call' : 'put';
+          var expiryDate = v.config.params.e;
+          d[expiryDate] = {
+            call: [],
+            put: []
+          };
+          d[expiryDate][type] = v.data['strikePrices'] || [];
+        } catch (e) {
+          d[expiryDate] = {
+            call: [],
+            put: []
+          };
+          d[expiryDate][type] = [];
+        }
+        res = merge(res, d);
+      });
+      return Promise.resolve(res);
+    });
+}
+
+
 var nse = {
   getMarketStatus: getMarketStatus,
   getIndices: getIndices,
@@ -268,7 +311,9 @@ var nse = {
 
   getStockFuturesData: getStockFuturesData,
 
-  getFuturesData: getFuturesData
+  getFuturesData: getFuturesData,
+
+  getOptionsData: getOptionsData
 };
 
 module.exports = nse;

@@ -1,4 +1,5 @@
 var API = require('./service/NSEAPI');
+var merge = require('lodash/merge');
 
 /**
  * Returns market status
@@ -160,18 +161,47 @@ function getFuturesData(symbol) {
     });
 }
 
-getFuturesData('INFY').then(function (value) {
+
+function getOptionsData(symbol) {
+  return API.getStockFutureOptionsExpiryDates(symbol)
+    .then(function (response) {
+      var data = response.data;
+      var expiries = data['expiries'];
+      if (expiries && expiries.length > 0) {
+        return Promise.all(expiries.map(function (date) {
+            return API.getStockOptionsPrices(symbol, date, true);
+          }).concat(expiries.map(function (date) {
+            return API.getStockOptionsPrices(symbol, date, false);
+          }))
+        );
+      } else {
+        return Promise.reject('No expiry dates present');
+      }
+    });
+}
+
+
+getOptionsData('INFY').then(function (value) {
   var res = {};
   value.map(function (v) {
     var d = {};
     try {
-      d[v.config.params.expiry] = v.data.data[0] || {};
+      var type = v.config.params.o === 'CE' ? 'call' : 'put';
+      var expiryDate = v.config.params.e;
+      d[expiryDate] = {
+        call: [],
+        put: []
+      };
+      d[expiryDate][type] = v.data['strikePrices'] || {};
     } catch (e) {
-      d[v.config.params.expiry] = {};
+      d[expiryDate] = {
+        call: [],
+        put: []
+      };
+      d[expiryDate][type] = {};
     }
-    res = Object.assign(res, d);
+    res = merge(res, d);
   });
-  console.log(res);
   return res;
 });
 
