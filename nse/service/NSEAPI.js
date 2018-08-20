@@ -213,13 +213,17 @@ function searchEquityDerivatives(searchString) {
   return axios.get(SEARCH_FUTURE_OPTIONS_URL + encodeURIComponent(searchString), options);
 }
 
-function getStockFutureOptionsExpiryDates(symbol, isFutures) {
+function getStockFutureOptionsExpiryDates(symbol, isFutures, isIndex) {
   var params = {
     i: isFutures ? 'FUTSTK' : 'OPTSTK',
     u: symbol,
     o: '',
     k: ''
   };
+
+  if (isIndex === true) {
+    params['i'] = isFutures ? 'FUTIDX' : 'OPTIDX';
+  }
 
   return axios({
     method: 'GET',
@@ -233,7 +237,7 @@ function getStockFutureOptionsExpiryDates(symbol, isFutures) {
   });
 }
 
-function getStockOptionsPrices(symbol, expiryDate, isCall) {
+function getStockOptionsPrices(symbol, expiryDate, isCall, isIndex) {
   var params = {
     i: 'OPTSTK',
     e: expiryDate,
@@ -242,6 +246,10 @@ function getStockOptionsPrices(symbol, expiryDate, isCall) {
     k: isCall ? 'CE' : 'PE'
   };
 
+  if (isIndex === true) {
+    params['i'] = 'OPTIDX';
+  }
+
   return axios({
     method: 'GET',
     url: STOCK_OPTIONS_INFO_URL,
@@ -254,7 +262,7 @@ function getStockOptionsPrices(symbol, expiryDate, isCall) {
   });
 }
 
-function getStockOptionsData(symbol, expiryDate, isCall, strikePrice) {
+function getStockOptionsData(symbol, expiryDate, isCall, strikePrice, isIndex) {
   var params = {
     'underlying': symbol,
     'instrument': 'OPTSTK',
@@ -263,6 +271,11 @@ function getStockOptionsData(symbol, expiryDate, isCall, strikePrice) {
     'strike': strikePrice
   };
 
+
+  if (isIndex === true) {
+    params['instrument'] = 'OPTIDX';
+  }
+
   return axios({
     method: 'GET',
     url: STOCK_OPTIONS_URL,
@@ -270,13 +283,13 @@ function getStockOptionsData(symbol, expiryDate, isCall, strikePrice) {
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
       Host: 'www.nseindia.com',
-      'Referer': 'https://nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuoteFO.jsp?underlying=' + symbol + '&instrument=OPTSTK&type=-&strike=-&expiry=' + expiryDate,
+      'Referer': 'https://nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuoteFO.jsp?underlying=' + symbol + '&instrument=' + params['instrument'] + '&type=-&strike=-&expiry=' + expiryDate,
     }
   });
 }
 
 
-function getStockFuturesData(symbol, expiryDate) {
+function getStockFuturesData(symbol, expiryDate, isIndex) {
   var params = {
     'underlying': symbol,
     'instrument': 'FUTSTK',
@@ -285,6 +298,11 @@ function getStockFuturesData(symbol, expiryDate) {
     'strike': 'SELECT'
   };
 
+
+  if (isIndex === true) {
+    params['instrument'] = 'FUTIDX';
+  }
+
   return axios({
     method: 'GET',
     url: STOCK_OPTIONS_URL,
@@ -292,7 +310,7 @@ function getStockFuturesData(symbol, expiryDate) {
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
       Host: 'www.nseindia.com',
-      'Referer': 'https://nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuoteFO.jsp?underlying=' + symbol + '&instrument=FUTSTK&type=-&strike=-&expiry=' + expiryDate,
+      'Referer': 'https://nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuoteFO.jsp?underlying=' + symbol + '&instrument=' + params['instrument'] + '&type=SELECT&strike=SELECT&expiry=' + expiryDate,
     }
   });
 }

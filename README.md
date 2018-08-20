@@ -66,6 +66,11 @@
  - getFuturesData(symbol) => wrapper around `getStockFuturesData` and `getStockFutureOptionsExpiryDates` and return all-together.
  
  - getOptionsData(symbol) => wrapper around `getStockOptionsPrices` and `getStockFutureOptionsExpiryDates` and returns list of all call and put prices for all the expiry Dates of a stock
+ 
+ - getIndexFuturesData(symbol)
+ - getIndexOptionsData(symbol)
+ 
+ ** valid symbols for Index Futures and Options are `["BANKNIFTY","FTSE100","NIFTY","NIFTYINFRA","NIFTYIT","NIFTYMID50","NIFTYPSE"]`
 
 ## Slug List
  ```javascript
