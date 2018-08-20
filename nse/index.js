@@ -157,10 +157,11 @@ function searchEquityDerivatives(symbol) {
  * Get Stock options and futures expiry dates
  * @param symbol
  * @param isFutures true=> return expiry date of futures else options
+ * @param isIndex
  * @returns {*}
  */
-function getStockFutureOptionsExpiryDates(symbol, isFutures) {
-  return NSEAPI.getStockFutureOptionsExpiryDates(symbol, isFutures);
+function getStockFutureOptionsExpiryDates(symbol, isFutures, isIndex) {
+  return NSEAPI.getStockFutureOptionsExpiryDates(symbol, isFutures, isIndex);
 }
 
 /**
@@ -168,10 +169,11 @@ function getStockFutureOptionsExpiryDates(symbol, isFutures) {
  * @param symbol
  * @param expiryDate use one of values returned by getStockFutureOptionsExpiryDates method only
  * @param isCall true=> call strike prices values else 'Put'
+ * @param isIndex
  * @returns {*}
  */
-function getStockOptionsPrices(symbol, expiryDate, isCall) {
-  return NSEAPI.getStockOptionsPrices(symbol, expiryDate, isCall);
+function getStockOptionsPrices(symbol, expiryDate, isCall, isIndex) {
+  return NSEAPI.getStockOptionsPrices(symbol, expiryDate, isCall, isIndex);
 }
 
 /**
@@ -180,20 +182,22 @@ function getStockOptionsPrices(symbol, expiryDate, isCall) {
  * @param expiryDate
  * @param isCall
  * @param strikePrice
+ * @param isIndex
  * @returns {*}
  */
-function getStockOptionsData(symbol, expiryDate, isCall, strikePrice) {
-  return NSEAPI.getStockOptionsData(symbol, expiryDate, isCall, strikePrice);
+function getStockOptionsData(symbol, expiryDate, isCall, strikePrice, isIndex) {
+  return NSEAPI.getStockOptionsData(symbol, expiryDate, isCall, strikePrice, isIndex);
 }
 
 /**
  * Get Stock Futures Data
  * @param symbol
  * @param expiryDate
+ * @param isIndex {boolean}
  * @returns {*}
  */
-function getStockFuturesData(symbol, expiryDate) {
-  return NSEAPI.getStockFuturesData(symbol, expiryDate);
+function getStockFuturesData(symbol, expiryDate, isIndex) {
+  return NSEAPI.getStockFuturesData(symbol, expiryDate, isIndex);
 }
 
 

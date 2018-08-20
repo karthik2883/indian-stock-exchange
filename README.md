@@ -55,13 +55,13 @@
  - searchEquityDerivatives(string) => search Equity Derivatives (min 3 chars) (! provides wrapper around site search)
  
  
- - getStockFutureOptionsExpiryDates(symbol, isFutures? boolean) 
+ - getStockFutureOptionsExpiryDates(symbol, isFutures? boolean, isIndex? boolean) 
  
- - getStockOptionsPrices(symbol, expiryDate, isCall? boolean) expiryDate value must be from one of values returned by above methods
+ - getStockOptionsPrices(symbol, expiryDate, isCall? boolean, isIndex? boolean) expiryDate value must be from one of values returned by above methods
  
- - getStockOptionsData(symbol, expiryDate, isCall, strikePrice) strikePrice value from above api result only
+ - getStockOptionsData(symbol, expiryDate, isCall, strikePrice, isIndex) strikePrice value from above api result only
  
- - getStockFuturesData(symbol, expiryDate) expiryDate from api method only
+ - getStockFuturesData(symbol, expiryDate, isIndex) expiryDate from api method only
 
  - getFuturesData(symbol) => wrapper around `getStockFuturesData` and `getStockFutureOptionsExpiryDates` and return all-together.
  
