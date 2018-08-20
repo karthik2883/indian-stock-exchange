@@ -337,7 +337,6 @@ function getIndexFuturesData(symbol) {
     .then(function (value) {
       var res = {};
       value.map(function (v) {
-        console.log(v.config.params)
         var d = {};
         try {
           d[v.config.params.expiry] = v.data.data[0] || {};
