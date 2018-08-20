@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "docs": "jsdoc --readme README.md bse nse -d docs",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "kaushiknishchay",
   "license": "ISC",
