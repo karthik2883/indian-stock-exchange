@@ -61,13 +61,13 @@ BSEAPI.getIndices()
    
  ##### getMarketStatus
  Response Format
-  ```json
+  ```
      { status: 'closed/open' }
   ```
  ---
  ##### getIndices
   Response Format
- ```json
+ ```
     {
         data: [ 
           { 
@@ -97,7 +97,7 @@ BSEAPI.getIndices()
  ---
  ##### getGainers
    Response Format
-  ```json
+  ```
     {
       data: [ 
               { 
@@ -121,7 +121,7 @@ BSEAPI.getIndices()
  ---
  ##### getLosers
   Response Format
-   ```json
+   ```
      {
        data: [ 
                { 
@@ -145,7 +145,7 @@ BSEAPI.getIndices()
  ---
  ##### getSectorsList
  Response Format
-  ```json
+  ```
   {
       data: {
         [STOCK SYMBOL]: { 
@@ -163,7 +163,7 @@ BSEAPI.getIndices()
  ---
  ##### getQuoteInfo(symbol)
  Response Format
-   ```json
+   ```
 {
   data: { 
     tradedDate: '24AUG2018',
@@ -249,7 +249,7 @@ BSEAPI.getIndices()
   ---
  ##### getInclineDecline
  Response Format
-   ```json
+   ```
 {
       data: {
          data: [
