@@ -145,7 +145,22 @@ function getStockFuturesData(symbol, date) {
     });
 }
 
-getGainers();
+function get52WeekHigh() {
+  return API.get52WeekHigh()
+    .then(function (value) {
+      var data = value.data;
+      console.log(data);
+    });
+}
+function get52WeekLow() {
+  return API.get52WeekLow()
+    .then(function (value) {
+      var data = value.data;
+      console.log(data);
+    });
+}
+
+get52WeekLow();
 
 var nse = {
   getMarketStatus: getMarketStatus,

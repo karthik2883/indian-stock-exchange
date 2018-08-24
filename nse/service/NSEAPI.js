@@ -2,6 +2,8 @@ var axios = require('axios');
 
 var csv2Json = require('../../utils/csv2Json');
 var candleStickMapper = require('../../utils/candleStickMapper');
+var YEAR_LOW_URL = require('../constant').YEAR_LOW_URL;
+var YEAR_HIGH_URL = require('../constant').YEAR_HIGH_URL;
 var INDEX_CHARTDATA_URL = require('../constant').INDEX_CHARTDATA_URL;
 var STOCK_OPTIONS_INFO_URL = require('../constant').STOCK_OPTIONS_INFO_URL;
 var STOCK_OPTIONS_URL = require('../constant').STOCK_OPTIONS_URL;
@@ -322,6 +324,32 @@ function getStockFuturesData(symbol, expiryDate, isIndex) {
 }
 
 
+function get52WeekHigh() {
+  return axios({
+    method: 'GET',
+    url: YEAR_HIGH_URL,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      Host: 'www.nseindia.com',
+      'Referer': 'https://nseindia.com/products/content/equities/equities/eq_new_high_low.htm'
+    }
+  });
+}
+
+
+function get52WeekLow() {
+  return axios({
+    method: 'GET',
+    url: YEAR_LOW_URL,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      Host: 'www.nseindia.com',
+      'Referer': 'https://nseindia.com/products/content/equities/equities/eq_new_high_low.htm'
+    }
+  });
+}
+
+
 var NSEAPI = {
   getIndices: getIndices,
   getIndices2: getIndices2,
@@ -343,7 +371,9 @@ var NSEAPI = {
   getStockFutureOptionsExpiryDates: getStockFutureOptionsExpiryDates,
   getStockOptionsPrices: getStockOptionsPrices,
   getStockOptionsData: getStockOptionsData,
-  getStockFuturesData: getStockFuturesData
+  getStockFuturesData: getStockFuturesData,
+  get52WeekHigh: get52WeekHigh,
+  get52WeekLow: get52WeekLow
 };
 
 module.exports = NSEAPI;

@@ -1,7 +1,7 @@
 exports.INDEX_URL = 'https://www.nseindia.com/homepage/Indices1.json';
 exports.SECTORS_LIST = 'https://nseindia.com/homepage/peDetails.json';
 exports.STOCKS_CSV_URL = 'https://www.nseindia.com/content/equities/EQUITY_L.csv';
-exports.MARKET_STATUS_URL ='https://nseindia.com//emerge/homepage/smeNormalMktStatus.json';
+exports.MARKET_STATUS_URL = 'https://nseindia.com//emerge/homepage/smeNormalMktStatus.json';
 exports.ADVANCES_DECLINES_URL = 'https://www.nseindia.com/common/json/indicesAdvanceDeclines.json';
 exports.LOSERS_URL = 'https://www.nseindia.com/live_market/dynaContent/live_analysis/losers/niftyLosers1.json';
 exports.GAINERS_URL = 'https://www.nseindia.com/live_market/dynaContent/live_analysis/gainers/niftyGainers1.json';
@@ -17,3 +17,6 @@ exports.SEARCH_FUTURE_OPTIONS_URL = 'https://nseindia.com/live_market/dynaConten
 exports.STOCK_FUTURES_URL = 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuoteFO.jsp?instrument=FUTSTK&type=-&strike=-&underlying=';
 exports.STOCK_OPTIONS_INFO_URL = 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/ajaxFOGetQuoteDataTest.jsp';
 exports.STOCK_OPTIONS_URL = 'https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/ajaxFOGetQuoteJSON.jsp';
+
+exports.YEAR_HIGH_URL = 'https://nseindia.com/products/dynaContent/equities/equities/json/online52NewHigh.json';
+exports.YEAR_LOW_URL = 'https://nseindia.com/products/dynaContent/equities/equities/json/online52NewLow.json';

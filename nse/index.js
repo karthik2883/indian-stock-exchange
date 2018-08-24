@@ -350,6 +350,15 @@ function getIndexFuturesData(symbol) {
 }
 
 
+function get52WeekHigh() {
+  return NSEAPI.get52WeekHigh();
+}
+
+function get52WeekLow() {
+  return NSEAPI.get52WeekLow();
+}
+
+
 var nse = {
   getMarketStatus: getMarketStatus,
   getIndices: getIndices,
@@ -392,7 +401,10 @@ var nse = {
   getOptionsData: getOptionsData,
 
   getIndexFuturesData: getIndexFuturesData,
-  getIndexOptionsData: getIndexOptionsData
+  getIndexOptionsData: getIndexOptionsData,
+
+  get52WeekHigh: get52WeekHigh,
+  get52WeekLow: get52WeekLow
 };
 
 module.exports = nse;
