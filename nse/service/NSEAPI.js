@@ -122,7 +122,13 @@ function getSectorsList() {
 }
 
 function getQuotes(symbol) {
-  return axios.get(GET_QUOTE_URL + encodeURIComponent(symbol));
+  return axios.get(GET_QUOTE_URL + encodeURIComponent(symbol),
+    {
+      headers: {
+        Referer: GET_QUOTE_URL + encodeURIComponent(symbol),
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
 }
 
 function getQuoteInfo(symbol) {

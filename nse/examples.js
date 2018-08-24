@@ -145,66 +145,7 @@ function getStockFuturesData(symbol, date) {
     });
 }
 
-function getFuturesData(symbol) {
-  return API.getStockFutureOptionsExpiryDates(symbol, true)
-    .then(function (response) {
-      var data = response.data;
-      var expiries = data['expiries'];
-      if (expiries && expiries.length > 0) {
-        return Promise.all(expiries.map(function (date) {
-            return API.getStockFuturesData(symbol, date);
-          })
-        );
-      } else {
-        return Promise.reject('No expiry dates present');
-      }
-    });
-}
-
-
-function getOptionsData(symbol) {
-  return API.getStockFutureOptionsExpiryDates(symbol)
-    .then(function (response) {
-      var data = response.data;
-      var expiries = data['expiries'];
-      if (expiries && expiries.length > 0) {
-        return Promise.all(expiries.map(function (date) {
-            return API.getStockOptionsPrices(symbol, date, true);
-          }).concat(expiries.map(function (date) {
-            return API.getStockOptionsPrices(symbol, date, false);
-          }))
-        );
-      } else {
-        return Promise.reject('No expiry dates present');
-      }
-    });
-}
-
-
-getOptionsData('INFY').then(function (value) {
-  var res = {};
-  value.map(function (v) {
-    var d = {};
-    try {
-      var type = v.config.params.o === 'CE' ? 'call' : 'put';
-      var expiryDate = v.config.params.e;
-      d[expiryDate] = {
-        call: [],
-        put: []
-      };
-      d[expiryDate][type] = v.data['strikePrices'] || {};
-    } catch (e) {
-      d[expiryDate] = {
-        call: [],
-        put: []
-      };
-      d[expiryDate][type] = {};
-    }
-    res = merge(res, d);
-  });
-  return res;
-});
-
+getGainers();
 
 var nse = {
   getMarketStatus: getMarketStatus,
@@ -217,7 +158,7 @@ var nse = {
   getGainers: getGainers,
   getLosers: getLosers,
 
-  getInclineDecline: getInclineDecline,
+  getInclineDecline: getInclineDecline
 };
 
 module.exports = nse;
