@@ -2,6 +2,8 @@ var axios = require('axios');
 
 var csv2Json = require('../../utils/csv2Json');
 var candleStickMapper = require('../../utils/candleStickMapper');
+var TOP_VOLUME_URL = require('../constant').TOP_VOLUME_URL;
+var TOP_VALUE_URL = require('../constant').TOP_VALUE_URL;
 var YEAR_LOW_URL = require('../constant').YEAR_LOW_URL;
 var YEAR_HIGH_URL = require('../constant').YEAR_HIGH_URL;
 var INDEX_CHARTDATA_URL = require('../constant').INDEX_CHARTDATA_URL;
@@ -350,6 +352,31 @@ function get52WeekLow() {
 }
 
 
+function getTopValueStocks() {
+  return axios({
+    method: 'GET',
+    url: TOP_VALUE_URL,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      Host: 'www.nseindia.com',
+      'Referer': 'https://nseindia.com/live_market/dynaContent/live_analysis/most_active_securities.htm'
+    }
+  });
+}
+
+function getTopVolumeStocks() {
+  return axios({
+    method: 'GET',
+    url: TOP_VOLUME_URL,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      Host: 'www.nseindia.com',
+      'Referer': 'https://nseindia.com/live_market/dynaContent/live_analysis/most_active_securities.htm'
+    }
+  });
+}
+
+
 var NSEAPI = {
   getIndices: getIndices,
   getIndices2: getIndices2,
@@ -373,7 +400,10 @@ var NSEAPI = {
   getStockOptionsData: getStockOptionsData,
   getStockFuturesData: getStockFuturesData,
   get52WeekHigh: get52WeekHigh,
-  get52WeekLow: get52WeekLow
+  get52WeekLow: get52WeekLow,
+  getTopVolumeStocks: getTopVolumeStocks,
+  getTopValueStocks: getTopValueStocks,
+
 };
 
 module.exports = NSEAPI;

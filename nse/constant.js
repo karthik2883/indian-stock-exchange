@@ -20,3 +20,6 @@ exports.STOCK_OPTIONS_URL = 'https://www.nseindia.com/live_market/dynaContent/li
 
 exports.YEAR_HIGH_URL = 'https://nseindia.com/products/dynaContent/equities/equities/json/online52NewHigh.json';
 exports.YEAR_LOW_URL = 'https://nseindia.com/products/dynaContent/equities/equities/json/online52NewLow.json';
+
+exports.TOP_VALUE_URL = 'https://nseindia.com/live_market/dynaContent/live_analysis/most_active/allTopValue1.json';
+exports.TOP_VOLUME_URL = 'https://nseindia.com/live_market/dynaContent/live_analysis/most_active/allTopVolume1.json';

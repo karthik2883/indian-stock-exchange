@@ -160,7 +160,15 @@ function get52WeekLow() {
     });
 }
 
-get52WeekLow();
+function getTopValueStocks() {
+  return API.getTopValueStocks()
+    .then(function (value) {
+      var data = value.data;
+      console.log(data);
+    });
+}
+
+getTopValueStocks();
 
 var nse = {
   getMarketStatus: getMarketStatus,

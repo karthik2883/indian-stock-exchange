@@ -359,6 +359,15 @@ function get52WeekLow() {
 }
 
 
+function getTopValueStocks() {
+  return NSEAPI.getTopValueStocks();
+}
+
+function getTopVolumeStocks() {
+  return NSEAPI.getTopVolumeStocks();
+}
+
+
 var nse = {
   getMarketStatus: getMarketStatus,
   getIndices: getIndices,
@@ -404,7 +413,9 @@ var nse = {
   getIndexOptionsData: getIndexOptionsData,
 
   get52WeekHigh: get52WeekHigh,
-  get52WeekLow: get52WeekLow
+  get52WeekLow: get52WeekLow,
+  getTopValueStocks: getTopValueStocks,
+  getTopVolumeStocks: getTopVolumeStocks
 };
 
 module.exports = nse;

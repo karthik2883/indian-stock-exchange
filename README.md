@@ -323,6 +323,9 @@ BSEAPI.getIndices()
  ##### get52WeekHigh
  ##### get52WeekLow
  
+ ##### getTopValueStocks
+ ##### getTopVolumeStocks
+ 
  ** valid symbols for Index Futures and Options are `["BANKNIFTY","FTSE100","NIFTY","NIFTYINFRA","NIFTYIT","NIFTYMID50","NIFTYPSE"]`
 
 ## Slug List
