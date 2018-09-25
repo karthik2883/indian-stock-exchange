@@ -121,7 +121,7 @@ BSEAPI.getIndices()
  ---
  - getLosers
   Response Format
-   ```
+```
      {
        data: [ 
                { 
@@ -141,12 +141,12 @@ BSEAPI.getIndices()
                ...
             ]
      }
-   ```
+```
  ---
  - getSectorsList
  Response Format
-  ```
-  {
+```
+    {
       data: {
         [STOCK SYMBOL]: { 
                 date: '24-Aug-2018 06:45:03',
@@ -157,13 +157,12 @@ BSEAPI.getIndices()
         },
         ...
         }
-  }
-    
-  ```
+    } 
+```
  ---
  - getQuoteInfo(symbol)
  Response Format
-   ```
+```
 {
   data: { 
     tradedDate: '24AUG2018',
@@ -328,7 +327,7 @@ BSEAPI.getIndices()
  ** valid symbols for Index Futures and Options are `["BANKNIFTY","FTSE100","NIFTY","NIFTYINFRA","NIFTYIT","NIFTYMID50","NIFTYPSE"]`
 
 ## Slug List
- ```javascript
+```javascript
 
  {
   'NIFTY 50': 'nifty',
