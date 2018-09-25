@@ -112,6 +112,16 @@ function getIntraDayDataXML(symbol, time) {
 }
 
 /**
+ * Chart Data for Stocks and indexs
+ * @param symbol = stock symbol
+ * @param time [1, 5, 15, 30, 60, 'week', 'month', 'year'] minutes
+ * @returns {*}
+ */
+function getChartDataNew(symbol, time) {
+  return NSEAPI.getChartDataNew(symbol, time);
+}
+
+/**
  * Intra-day Index chart data
  * @param symbol = index symbol
  * @param time [1, 5, 15, 30, 60, 'week', 'month', 'year'] minutes
@@ -213,8 +223,8 @@ function getFuturesData(symbol) {
       var expiries = data['expiries'];
       if (expiries && expiries.length > 0) {
         return Promise.all(expiries.map(function (date) {
-            return NSEAPI.getStockFuturesData(symbol, date);
-          })
+          return NSEAPI.getStockFuturesData(symbol, date);
+        })
         );
       } else {
         return Promise.reject('No expiry dates present');
@@ -243,10 +253,10 @@ function getOptionsData(symbol) {
       var expiries = data['expiries'];
       if (expiries && expiries.length > 0) {
         return Promise.all(expiries.map(function (date) {
-            return NSEAPI.getStockOptionsPrices(symbol, date, true);
-          }).concat(expiries.map(function (date) {
-            return NSEAPI.getStockOptionsPrices(symbol, date, false);
-          }))
+          return NSEAPI.getStockOptionsPrices(symbol, date, true);
+        }).concat(expiries.map(function (date) {
+          return NSEAPI.getStockOptionsPrices(symbol, date, false);
+        }))
         );
       } else {
         return Promise.reject('No expiry dates present');
@@ -285,10 +295,10 @@ function getIndexOptionsData(symbol) {
       var expiries = data['expiries'];
       if (expiries && expiries.length > 0) {
         return Promise.all(expiries.map(function (date) {
-            return NSEAPI.getStockOptionsPrices(symbol, date, true, true);
-          }).concat(expiries.map(function (date) {
-            return NSEAPI.getStockOptionsPrices(symbol, date, false, true);
-          }))
+          return NSEAPI.getStockOptionsPrices(symbol, date, true, true);
+        }).concat(expiries.map(function (date) {
+          return NSEAPI.getStockOptionsPrices(symbol, date, false, true);
+        }))
         );
       } else {
         return Promise.reject('No expiry dates present');
@@ -327,8 +337,8 @@ function getIndexFuturesData(symbol) {
       var expiries = data['expiries'];
       if (expiries && expiries.length > 0) {
         return Promise.all(expiries.map(function (date) {
-            return NSEAPI.getStockFuturesData(symbol, date, true);
-          })
+          return NSEAPI.getStockFuturesData(symbol, date, true);
+        })
         );
       } else {
         return Promise.reject('No expiry dates present');
@@ -415,7 +425,8 @@ var nse = {
   get52WeekHigh: get52WeekHigh,
   get52WeekLow: get52WeekLow,
   getTopValueStocks: getTopValueStocks,
-  getTopVolumeStocks: getTopVolumeStocks
+  getTopVolumeStocks: getTopVolumeStocks,
+  getChartDataNew: getChartDataNew
 };
 
 module.exports = nse;

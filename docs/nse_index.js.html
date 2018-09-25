@@ -140,6 +140,16 @@ function getIntraDayDataXML(symbol, time) {
 }
 
 /**
+ * Chart Data for Stocks and indexs
+ * @param symbol = stock symbol
+ * @param time [1, 5, 15, 30, 60, 'week', 'month', 'year'] minutes
+ * @returns {*}
+ */
+function getChartDataNew(symbol, time) {
+  return NSEAPI.getChartDataNew(symbol, time);
+}
+
+/**
  * Intra-day Index chart data
  * @param symbol = index symbol
  * @param time [1, 5, 15, 30, 60, 'week', 'month', 'year'] minutes
@@ -241,8 +251,8 @@ function getFuturesData(symbol) {
       var expiries = data['expiries'];
       if (expiries &amp;&amp; expiries.length > 0) {
         return Promise.all(expiries.map(function (date) {
-            return NSEAPI.getStockFuturesData(symbol, date);
-          })
+          return NSEAPI.getStockFuturesData(symbol, date);
+        })
         );
       } else {
         return Promise.reject('No expiry dates present');
@@ -271,10 +281,10 @@ function getOptionsData(symbol) {
       var expiries = data['expiries'];
       if (expiries &amp;&amp; expiries.length > 0) {
         return Promise.all(expiries.map(function (date) {
-            return NSEAPI.getStockOptionsPrices(symbol, date, true);
-          }).concat(expiries.map(function (date) {
-            return NSEAPI.getStockOptionsPrices(symbol, date, false);
-          }))
+          return NSEAPI.getStockOptionsPrices(symbol, date, true);
+        }).concat(expiries.map(function (date) {
+          return NSEAPI.getStockOptionsPrices(symbol, date, false);
+        }))
         );
       } else {
         return Promise.reject('No expiry dates present');
@@ -313,10 +323,10 @@ function getIndexOptionsData(symbol) {
       var expiries = data['expiries'];
       if (expiries &amp;&amp; expiries.length > 0) {
         return Promise.all(expiries.map(function (date) {
-            return NSEAPI.getStockOptionsPrices(symbol, date, true, true);
-          }).concat(expiries.map(function (date) {
-            return NSEAPI.getStockOptionsPrices(symbol, date, false, true);
-          }))
+          return NSEAPI.getStockOptionsPrices(symbol, date, true, true);
+        }).concat(expiries.map(function (date) {
+          return NSEAPI.getStockOptionsPrices(symbol, date, false, true);
+        }))
         );
       } else {
         return Promise.reject('No expiry dates present');
@@ -355,8 +365,8 @@ function getIndexFuturesData(symbol) {
       var expiries = data['expiries'];
       if (expiries &amp;&amp; expiries.length > 0) {
         return Promise.all(expiries.map(function (date) {
-            return NSEAPI.getStockFuturesData(symbol, date, true);
-          })
+          return NSEAPI.getStockFuturesData(symbol, date, true);
+        })
         );
       } else {
         return Promise.reject('No expiry dates present');
@@ -443,7 +453,8 @@ var nse = {
   get52WeekHigh: get52WeekHigh,
   get52WeekLow: get52WeekLow,
   getTopValueStocks: getTopValueStocks,
-  getTopVolumeStocks: getTopVolumeStocks
+  getTopVolumeStocks: getTopVolumeStocks,
+  getChartDataNew: getChartDataNew
 };
 
 module.exports = nse;</code></pre>
@@ -456,13 +467,13 @@ module.exports = nse;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getAllStocksCSV">getAllStocksCSV</a></li><li><a href="global.html#getCandleStickData">getCandleStickData</a></li><li><a href="global.html#getCompanyInfo">getCompanyInfo</a></li><li><a href="global.html#getFuturesData">getFuturesData</a></li><li><a href="global.html#getGainers">getGainers</a></li><li><a href="global.html#getInclineDecline">getInclineDecline</a></li><li><a href="global.html#getIndexChartData">getIndexChartData</a></li><li><a href="global.html#getIndexInfo">getIndexInfo</a></li><li><a href="global.html#getIndexStocks">getIndexStocks</a></li><li><a href="global.html#getIndices">getIndices</a></li><li><a href="global.html#getIndices2">getIndices2</a></li><li><a href="global.html#getIntraDayDataXML">getIntraDayDataXML</a></li><li><a href="global.html#getLosers">getLosers</a></li><li><a href="global.html#getMarketStatus">getMarketStatus</a></li><li><a href="global.html#getQuoteInfo">getQuoteInfo</a></li><li><a href="global.html#getSectorsList">getSectorsList</a></li><li><a href="global.html#getStockCandleStickData">getStockCandleStickData</a></li><li><a href="global.html#getStockFutureOptionsExpiryDates">getStockFutureOptionsExpiryDates</a></li><li><a href="global.html#getStockFuturesData">getStockFuturesData</a></li><li><a href="global.html#getStockInfoAndDayChartData">getStockInfoAndDayChartData</a></li><li><a href="global.html#getStockMarketDepth">getStockMarketDepth</a></li><li><a href="global.html#getStockOptionsData">getStockOptionsData</a></li><li><a href="global.html#getStockOptionsPrices">getStockOptionsPrices</a></li><li><a href="global.html#getStocksChartData">getStocksChartData</a></li><li><a href="global.html#getTopTurnOvers">getTopTurnOvers</a></li><li><a href="global.html#searchEquityDerivatives">searchEquityDerivatives</a></li><li><a href="global.html#searchStocks">searchStocks</a></li><li><a href="global.html#TURNOVER_HEADERS">TURNOVER_HEADERS</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#getAllStocksCSV">getAllStocksCSV</a></li><li><a href="global.html#getCandleStickData">getCandleStickData</a></li><li><a href="global.html#getChartDataNew">getChartDataNew</a></li><li><a href="global.html#getCompanyInfo">getCompanyInfo</a></li><li><a href="global.html#getFuturesData">getFuturesData</a></li><li><a href="global.html#getGainers">getGainers</a></li><li><a href="global.html#getInclineDecline">getInclineDecline</a></li><li><a href="global.html#getIndexChartData">getIndexChartData</a></li><li><a href="global.html#getIndexInfo">getIndexInfo</a></li><li><a href="global.html#getIndexStocks">getIndexStocks</a></li><li><a href="global.html#getIndices">getIndices</a></li><li><a href="global.html#getIndices2">getIndices2</a></li><li><a href="global.html#getIntraDayDataXML">getIntraDayDataXML</a></li><li><a href="global.html#getLosers">getLosers</a></li><li><a href="global.html#getMarketStatus">getMarketStatus</a></li><li><a href="global.html#getQuoteInfo">getQuoteInfo</a></li><li><a href="global.html#getSectorsList">getSectorsList</a></li><li><a href="global.html#getStockCandleStickData">getStockCandleStickData</a></li><li><a href="global.html#getStockFutureOptionsExpiryDates">getStockFutureOptionsExpiryDates</a></li><li><a href="global.html#getStockFuturesData">getStockFuturesData</a></li><li><a href="global.html#getStockInfoAndDayChartData">getStockInfoAndDayChartData</a></li><li><a href="global.html#getStockMarketDepth">getStockMarketDepth</a></li><li><a href="global.html#getStockOptionsData">getStockOptionsData</a></li><li><a href="global.html#getStockOptionsPrices">getStockOptionsPrices</a></li><li><a href="global.html#getStocksChartData">getStocksChartData</a></li><li><a href="global.html#getTopTurnOvers">getTopTurnOvers</a></li><li><a href="global.html#searchEquityDerivatives">searchEquityDerivatives</a></li><li><a href="global.html#searchStocks">searchStocks</a></li><li><a href="global.html#TURNOVER_HEADERS">TURNOVER_HEADERS</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Aug 24 2018 23:53:31 GMT+0530 (IST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Sep 25 2018 11:51:51 GMT+0530 (IST)
 </footer>
 
 <script> prettyPrint(); </script>

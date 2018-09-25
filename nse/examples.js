@@ -1,6 +1,6 @@
+var NSEAPI = require('./index');
 var API = require('./service/NSEAPI');
 var merge = require('lodash/merge');
-
 /**
  * Returns market status
  * true => market Close
@@ -168,7 +168,14 @@ function getTopValueStocks() {
     });
 }
 
-getTopValueStocks();
+NSEAPI.getChartDataNew('VEDL', 'month')
+  .then(function (value) {
+    var data = value.data;
+    console.log(data);
+  })
+  .catch(e => {
+    console.log(e.config)
+  });
 
 var nse = {
   getMarketStatus: getMarketStatus,

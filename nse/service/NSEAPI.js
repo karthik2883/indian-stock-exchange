@@ -14,6 +14,7 @@ var SEARCH_FUTURE_OPTIONS_URL = require('../constant').SEARCH_FUTURE_OPTIONS_URL
 var SEARCH_URL = require('../constant').SEARCH_URL;
 var CANDLESTICK_URL = require('../constant').CANDLESTICK_URL;
 var INTRADAY_URL = require('../constant').INTRADAY_URL;
+var NEW_CHART_DATA_URL = require('../constant').NEW_CHART_DATA_URL;
 var INDEX_STOCKS_URL = require('../constant').INDEX_STOCKS_URL;
 var STOCKS_CSV_URL = require('../constant').STOCKS_CSV_URL;
 var INDEX_URL = require('../constant').INDEX_URL;
@@ -167,6 +168,20 @@ function getIntraDayData(symbol, time) {
   return axios.get(INTRADAY_URL + encodeURIComponent(symbol) + '&Periodicity=' + period + '&PeriodType=' + periodType);
 }
 
+function getChartDataNew(symbol, time) {
+  var periodType = typeof time === 'string' ? 1 : 2;
+  var period = getTime(periodType, time);
+
+  return axios.post(NEW_CHART_DATA_URL,
+    `Instrument=FUTSTK&CDSymbol=${symbol}&Segment=CM&Series=EQ&CDExpiryMonth=1&FOExpiryMonth=1&IRFExpiryMonth=&CDIntraExpiryMonth=&FOIntraExpiryMonth=&IRFIntraExpiryMonth=&CDDate1=&CDDate2=&PeriodType=${periodType}&Periodicity=${period}&ct0=g1|1|1&ct1=g2|2|1&ctcount=2&time=${new Date().getTime()}`, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Host: 'nseindia.com',
+        Referer: 'https://nseindia.com/ChartApp/install/charts/mainpage.jsp'
+      }
+    });
+}
+
 function getIndexChartData(symbol, time) {
   var periodType = typeof time === 'string' ? 1 : 2;
   var period = getTime(periodType, time);
@@ -180,13 +195,13 @@ function getCandleStickData(symbol, time, isIndex) {
   var segment = isIndex ? 'OI' : 'CM';
 
   var options =
-    {
-      headers: {
-        'Referer': 'https://www.nseindia.com/ChartApp/install/charts/mainpage.jsp',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Host: 'www.nseindia.com'
-      }
-    };
+  {
+    headers: {
+      'Referer': 'https://www.nseindia.com/ChartApp/install/charts/mainpage.jsp',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Host: 'www.nseindia.com'
+    }
+  };
 
   var data = 'Instrument=FUTSTK&CDSymbol=' + symbol +
     '&Segment=' + segment +
@@ -403,7 +418,7 @@ var NSEAPI = {
   get52WeekLow: get52WeekLow,
   getTopVolumeStocks: getTopVolumeStocks,
   getTopValueStocks: getTopValueStocks,
-
+  getChartDataNew: getChartDataNew,
 };
 
 module.exports = NSEAPI;
