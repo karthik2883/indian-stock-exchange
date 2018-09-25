@@ -249,8 +249,7 @@ BSEAPI.getIndices()
   ---
  - getInclineDecline
  Response Format
-   ```
-{
+  ```{
       data: {
          data: [
             { 
